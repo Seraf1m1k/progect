@@ -1,0 +1,18 @@
+img {  
+  font-family: 'Helvetica';
+  font-weight: 300;
+  line-height: 2;  
+  text-align: center;
+}
+
+img:before {  
+  content: "Извините, изображение не загруженно :(";
+  display: block;
+  margin-bottom: 10px;
+}
+
+img:after {  
+  content: "(url: " attr(src) ")";
+  display: block;
+  font-size: 12px;
+}

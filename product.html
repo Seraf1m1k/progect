@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Товар</title>
+    <link href="src/output.css" rel="stylesheet">
+    <link href="src\style.css" rel="stylesheet">
+    <script src="loader.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
+
+    <nav class="bg-white shadow-md py-4">
+        <div class="container mx-auto flex justify-between items-center px-6">
+            <a href="index.html" class="text-2xl font-bold">Магазин</a>
+            <ul class="flex space-x-6">
+                <li><a href="index.html" class="hover:text-blue-500">Главная</a></li>
+                <li><a href="catalog.html" class="hover:text-blue-500">Каталог</a></li>
+                <li><a href="favorites.html" class="hover:text-blue-500">Избранное</a></li>
+                <li><a href="cart.html" class="hover:text-blue-500">Корзина</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="flex-grow">
+        <section class="py-10">
+            <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+                <img id="productImage" src="" alt="Товар" class="w-full rounded-lg">
+                <div>
+                    <h1 id="productName" class="text-3xl font-bold"></h1>
+                    <div class="flex items-center space-x-2 mt-2">
+                        <span id="productRating" class="text-yellow-500"></span>
+                        <span class="text-gray-600">(123 отзыва)</span>
+                    </div>
+                    <p id="productStock" class="text-lg font-semibold mt-2"></p>
+                    <p id="productPrice" class="text-2xl font-bold mt-4"></p>
+
+                    <!-- Выбор количества -->
+                    <div class="flex items-center mt-4 space-x-4">
+                        <button id="decreaseQty" class="bg-gray-300 px-3 py-2 rounded">-</button>
+                        <input id="productQty" type="number" value="1" min="1" class="w-16 text-center text-xl font-bold border border-gray-300 rounded">
+                        <button id="increaseQty" class="bg-gray-300 px-3 py-2 rounded">+</button>
+                    </div>
+
+                    <!-- Кнопки -->
+                    <div class="mt-6 flex space-x-4">
+                        <button class="bg-blue-500 text-white py-3 px-6 rounded hover:bg-blue-600">Добавить в корзину</button>
+                        <button id="addToFav" class="border border-red-500 text-red-500 py-3 px-6 rounded hover:bg-red-500 hover:text-white">❤️ В избранное</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Описание, характеристики, отзывы -->
+        <section class="container mx-auto px-6 mt-10">
+            <!-- Описание -->
+            <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+                <h2 class="text-2xl font-bold mb-4">Описание</h2>
+                <p id="productDesc" class="text-gray-700 overflow-hidden transition-all duration-300 
+                    md:max-h-full max-h-[5.5rem] md:line-clamp-none line-clamp-4">
+                </p>
+                <button id="toggleDesc" class="text-blue-500 mt-2 hidden md:hidden">Читать полностью</button>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+                <h2 class="text-2xl font-bold mb-4">Характеристики</h2>
+                <p id="productSpecs" class="text-gray-700"></p>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+                <h2 class="text-2xl font-bold mb-4">Отзывы</h2>
+                <div id="reviews" class="space-y-4">
+                    <!-- Отзывы будут добавляться через JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6 mt-auto">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Магазин. Все права защищены.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        const products = {
+            "1": {
+                name: "RHJCJDJR",
+                image: "https://source.unsplash.com/500x500/?shoes",
+                desc: "Удобные и стильные кроссовки.",
+                price: "5 990 ₽",
+                stock: true,
+                rating: "⭐⭐⭐⭐⭐",
+                specs: "Материал: кожа, Размеры: 38-45",
+                reviews: [
+                    { name: "Иван", time: "1 год назад", text: "Отличные кроссовки!"},
+                    { name: "Анна", time: "3 месяца назад", text: "Качество на высоте." }
+                ]
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get("id");
+
+            if (!productId || !products[productId]) {
+                document.querySelector("main").innerHTML = "<p class='text-center text-2xl'>Товар не найден</p>";
+                return;
+            }
+
+            const product = products[productId];
+
+            // Подтягиваем все данные
+            document.getElementById("productName").textContent = product.name;
+            document.getElementById("productImage").src = product.image;
+            document.getElementById("productDesc").textContent = product.desc;
+            document.getElementById("productPrice").textContent = product.price;
+            document.getElementById("productStock").textContent = product.stock ? "В наличии" : "Отсутствует";
+            document.getElementById("productStock").classList.toggle("text-green-600", product.stock);
+            document.getElementById("productStock").classList.toggle("text-red-600", !product.stock);
+            document.getElementById("productRating").textContent = product.rating;
+            document.getElementById("productSpecs").textContent = product.specs;
+
+            // Загружаем отзывы
+            const reviewsContainer = document.getElementById("reviews");
+            reviewsContainer.innerHTML = ""; // Очищаем перед вставкой
+
+            product.reviews.forEach(review => {
+                const reviewEl = document.createElement("div");
+                reviewEl.classList.add("p-4", "bg-gray-100", "rounded-lg");
+                reviewEl.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <img src="https://source.unsplash.com/50x50/?person" class="rounded-full">
+                        <div>
+                            <p class="font-bold">${review.name}</p>
+                            <p class="text-sm text-gray-600">${review.time}</p>
+                        </div>
+                    </div>
+                    <p class="mt-2">${review.text}</p>
+                `;
+                reviewsContainer.appendChild(reviewEl);
+            });
+        });
+    </script>
+
+        <!-- Увеличение и уменьшение количества товара -->
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const qtyInput = document.getElementById("productQty");
+                const increaseBtn = document.getElementById("increaseQty");
+                const decreaseBtn = document.getElementById("decreaseQty");
+
+                // Увеличение количества
+                increaseBtn.addEventListener("click", () => {
+                    qtyInput.value = parseInt(qtyInput.value) + 1;
+                });
+
+                // Уменьшение количества (не меньше 1)
+                decreaseBtn.addEventListener("click", () => {
+                    if (parseInt(qtyInput.value) > 1) {
+                        qtyInput.value = parseInt(qtyInput.value) - 1;
+                    }
+                });
+
+                // Проверка на ввод (нельзя меньше 1)
+                qtyInput.addEventListener("input", () => {
+                    if (qtyInput.value === "" || parseInt(qtyInput.value) < 1) {
+                        qtyInput.value = 1;
+                    }
+                });
+            });
+        </script>
+</body>
+</html>
