@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Страница пользователя</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js"></script>
+	</head>
+
+	<body class="bg-gray-100">
+		<div class="flex h-screen">
+			<!-- Меню слева -->
+			<div class="w-64 bg-white shadow-md p-6">
+				<h2 class="text-2xl font-semibold text-center mb-6">Меню</h2>
+				<ul class="space-y-4">
+					<li>
+						<button id="ordersTab" class="w-full text-left text-lg">
+							История заказов
+						</button>
+					</li>
+					<li>
+						<button id="addressTab" class="w-full text-left text-lg">
+							Адрес доставки
+						</button>
+					</li>
+					<li>
+						<button id="contactTab" class="w-full text-left text-lg">
+							Контактные данные
+						</button>
+					</li>
+					<li>
+						<button
+							id="logoutBtn"
+							class="w-full text-left text-lg text-red-500"
+						>
+							Выход с аккаунта
+						</button>
+					</li>
+				</ul>
+			</div>
+
+			<!-- Основной контент -->
+			<div class="flex-1 p-6">
+				<!-- История заказов -->
+				<div id="ordersSection" class="hidden">
+					<h2 class="text-2xl font-semibold mb-4">История заказов</h2>
+					<ul id="ordersList" class="space-y-2">
+						<!-- Заказы будут загружаться сюда -->
+					</ul>
+				</div>
+
+				<!-- Адрес доставки -->
+				<div id="addressSection" class="hidden">
+					<h2 class="text-2xl font-semibold mb-4">Адрес доставки</h2>
+					<div class="space-y-4">
+						<div>
+							<label for="city" class="block text-lg">Город</label>
+							<input
+								id="city"
+								type="text"
+								class="w-full p-2 border border-gray-300 rounded-md"
+								placeholder="Введите город"
+							/>
+							<ul
+								id="citySuggestions"
+								class="bg-white border border-gray-300 mt-2 rounded-md hidden"
+							></ul>
+						</div>
+						<div>
+							<label for="address" class="block text-lg">Адрес</label>
+							<input
+								id="address"
+								type="text"
+								class="w-full p-2 border border-gray-300 rounded-md"
+								placeholder="Введите адрес"
+							/>
+						</div>
+					</div>
+				</div>
+
+				<!-- Контактные данные -->
+				<div id="contactSection" class="hidden">
+					<h2 class="text-2xl font-semibold mb-4">Контактные данные</h2>
+					<div class="space-y-4">
+						<div>
+							<label for="fullName" class="block text-lg">ФИО</label>
+							<input
+								id="fullName"
+								type="text"
+								class="w-full p-2 border border-gray-300 rounded-md"
+								placeholder="Введите ФИО"
+							/>
+						</div>
+						<div>
+							<label for="phone" class="block text-lg">Номер телефона</label>
+							<input
+								id="phone"
+								type="text"
+								class="w-full p-2 border border-gray-300 rounded-md"
+								placeholder="Введите номер телефона"
+							/>
+						</div>
+						<div>
+							<label for="email" class="block text-lg">Email</label>
+							<input
+								id="email"
+								type="email"
+								class="w-full p-2 border border-gray-300 rounded-md"
+								placeholder="Введите email"
+							/>
+						</div>
+						<div>
+							<label for="oldPassword" class="block text-lg"
+								>Старый пароль</label
+							>
+							<input
+								id="oldPassword"
+								type="password"
+								class="w-full p-2 border border-gray-300 rounded-md"
+								placeholder="Введите старый пароль"
+							/>
+						</div>
+						<div>
+							<label for="newPassword" class="block text-lg"
+								>Новый пароль</label
+							>
+							<input
+								id="newPassword"
+								type="password"
+								class="w-full p-2 border border-gray-300 rounded-md"
+								placeholder="Введите новый пароль"
+							/>
+						</div>
+						<div>
+							<label for="confirmNewPassword" class="block text-lg"
+								>Подтверждение нового пароля</label
+							>
+							<input
+								id="confirmNewPassword"
+								type="password"
+								class="w-full p-2 border border-gray-300 rounded-md"
+								placeholder="Подтвердите новый пароль"
+							/>
+						</div>
+						<button
+							id="updatePasswordBtn"
+							class="w-full bg-blue-500 text-white p-2 rounded-md"
+						>
+							Обновить пароль
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			// Функции для переключения вкладок
+			const ordersTab = document.getElementById("ordersTab");
+			const addressTab = document.getElementById("addressTab");
+			const contactTab = document.getElementById("contactTab");
+			const logoutBtn = document.getElementById("logoutBtn");
+
+			const ordersSection = document.getElementById("ordersSection");
+			const addressSection = document.getElementById("addressSection");
+			const contactSection = document.getElementById("contactSection");
+
+			ordersTab.addEventListener("click", () => {
+				ordersSection.classList.remove("hidden");
+				addressSection.classList.add("hidden");
+				contactSection.classList.add("hidden");
+			});
+
+			addressTab.addEventListener("click", () => {
+				addressSection.classList.remove("hidden");
+				ordersSection.classList.add("hidden");
+				contactSection.classList.add("hidden");
+			});
+
+			contactTab.addEventListener("click", () => {
+				contactSection.classList.remove("hidden");
+				ordersSection.classList.add("hidden");
+				addressSection.classList.add("hidden");
+			});
+
+			logoutBtn.addEventListener("click", () => {
+				alert("Выход из аккаунта");
+				// Здесь будет вызов функции для выхода с аккаунта
+			});
+
+			// Функция для отображения истории заказов
+			const loadOrders = async () => {
+				// Получение заказов из бекенда
+				const orders = await axios.get("/api/orders"); // Путь к API
+				const ordersList = document.getElementById("ordersList");
+				ordersList.innerHTML = orders.data
+					.map(
+						(order) => `
+                <li class="p-2 bg-gray-200 rounded-md">${order.date} - ${order.amount} руб.</li>
+            `,
+					)
+					.join("");
+			};
+
+			loadOrders();
+
+			// Обновление пароля
+			const updatePasswordBtn = document.getElementById("updatePasswordBtn");
+			updatePasswordBtn.addEventListener("click", async () => {
+				const oldPassword = document.getElementById("oldPassword").value;
+				const newPassword = document.getElementById("newPassword").value;
+				const confirmNewPassword =
+					document.getElementById("confirmNewPassword").value;
+
+				if (newPassword !== confirmNewPassword) {
+					alert("Пароли не совпадают");
+					return;
+				}
+
+				// Отправка запроса на обновление пароля
+				const response = await axios.post("/api/update-password", {
+					oldPassword,
+					newPassword,
+				});
+
+				if (response.status === 200) {
+					alert("Пароль успешно обновлён");
+				} else {
+					alert("Ошибка при обновлении пароля");
+				}
+			});
+
+			// Локальный массив городов
+			const citiesArray = [
+				"Москва",
+				"Санкт-Петербург",
+				"Новосибирск",
+				"Екатеринбург",
+				"Казань",
+				"Нижний Новгород",
+				"Челябинск",
+				"Омск",
+				"Самара",
+				"Ростов-на-Дону",
+				"Уфа",
+				"Красноярск",
+				"Пермь",
+				"Волгоград",
+				"Воронеж",
+				"Саратов",
+				"Краснодар",
+				"Тюмень",
+				"Тольятти",
+				"Ижевск",
+				"Барнаул",
+				"Ульяновск",
+				"Иркутск",
+				"Хабаровск",
+				"Ярославль",
+				"Владивосток",
+				"Махачкала",
+				"Новокузнецк",
+				"Оренбург",
+				"Кемерово",
+				"Рязань",
+				"Астрахань",
+				"Пенза",
+				"Липецк",
+				"Тула",
+				"Киров",
+				"Чебоксары",
+				"Калининград",
+				"Курск",
+				"Улан-Удэ",
+				"Ставрополь",
+				"Сочи",
+				"Новороссийск",
+				"Великий Новгород",
+				"Волгодонск",
+				"Набережные Челны",
+				"Арзамас",
+				"Мурманск",
+				"Петрозаводск",
+				"Сургут",
+			];
+
+			const cityInput = document.getElementById("city");
+			const citySuggestions = document.getElementById("citySuggestions");
+
+			// Функция для выбора города
+			function selectCity(city) {
+				cityInput.value = city;
+				citySuggestions.classList.add("hidden");
+			}
+
+			// Обработчик ввода для фильтрации массива городов
+			cityInput.addEventListener("input", () => {
+				const query = cityInput.value.toLowerCase();
+				if (query.length > 0) {
+					const filteredCities = citiesArray.filter((city) =>
+						city.toLowerCase().includes(query),
+					);
+
+					if (filteredCities.length > 0) {
+						citySuggestions.innerHTML = filteredCities
+							.map(
+								(city) => `
+                <li class="p-2 cursor-pointer hover:bg-gray-200" onclick="selectCity('${city}')">
+                    ${city}
+                </li>
+                `,
+							)
+							.join("");
+						citySuggestions.classList.remove("hidden");
+					} else {
+						citySuggestions.innerHTML = `<li class="p-2 text-gray-500">Нет совпадений</li>`;
+						citySuggestions.classList.remove("hidden");
+					}
+				} else {
+					citySuggestions.classList.add("hidden");
+				}
+			});
+
+			// Скрытие подсказок при клике вне области ввода
+			document.addEventListener("click", (event) => {
+				if (
+					!cityInput.contains(event.target) &&
+					!citySuggestions.contains(event.target)
+				) {
+					citySuggestions.classList.add("hidden");
+				}
+			});
+		</script>
+	</body>
+</html>
