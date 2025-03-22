@@ -16,3 +16,26 @@ img:after {
   display: block;
   font-size: 12px;
 }
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+/* Стили для фона скролл-бара */
+::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+/* Стили для самого скролл-бара */
+::-webkit-scrollbar-thumb {
+  background-color: #007bff;
+  border-radius: 10px;
+}
+
+/* Для горизонтального скролл-бара */
+::-webkit-scrollbar-thumb:horizontal {
+  background-color: #007bff;
+  border-radius: 10px;
+}
