@@ -98,6 +98,33 @@ function hideNotification(notification) {
 }
 
 
+// Функция для приёма и отправки данных PHP
+document.addEventListener('DOMContentLoaded', function() {
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', function(event) {
+            const activeElement = document.activeElement; 
+            if (activeElement && activeElement.type === 'submit') {
+                event.preventDefault(); 
+                const formData = new FormData(form);
+                const actionUrl = form.getAttribute('action');
+                fetch(actionUrl, {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    showNotification(data.str, data.type);
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                    }
+                    form.reset();
+                })
+            }
+        });
+    });
+});
+
 
 // Как использовать?
 // showNotification("Данные успешно сохранены!", "success");            Зеленый

@@ -1,3 +1,7 @@
+<?php
+require_once "php/catalog/catalog.php";
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -13,9 +17,9 @@
 
     <nav class="bg-white shadow-md py-4">
         <div class="container mx-auto flex justify-between items-center px-6">
-            <a href="index.html" class="text-2xl font-bold">Магазин</a>
+            <a href="index.php" class="text-2xl font-bold">Магазин</a>
             <ul class="flex space-x-6">
-                <li><a href="index.html" class="hover:text-blue-500">Главная</a></li>
+                <li><a href="index.php" class="hover:text-blue-500">Главная</a></li>
                 <li><a href="contacts.html" class="hover:text-blue-500">Контакты</a></li>
             </ul>
         </div>
@@ -41,14 +45,25 @@
                 <h2 class="text-3xl font-bold text-center mb-6">Каталог товаров</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Товар 1 -->
-                    <a href="product.html?id=1" class="product bg-white p-4 rounded-lg shadow-md text-center cursor-pointer transition-transform transform hover:scale-105" data-category="shoes">
-                        <img src="https://i.pinimg.com/736x/48/06/83/480683787f483da89bcb5fb0defb0267.jpg" 
-                            alt="Кроссовки" 
+                    <?
+                    while ($product = $query->fetch_assoc())
+                    {
+                    ?>     
+                    <a href="product.html?id=<?=$product['id']?>" class="product bg-white p-4 rounded-lg shadow-md text-center cursor-pointer transition-transform transform hover:scale-105" data-category="<?=$product['categoryProduct']?>">
+                    <!-- Ещё не известно как картинки будут сохронять  -->
+                    <img src="<?=$product['imageProduct']?>" 
+                            alt="<?=$product['nameProduct']?>" 
                             class="max-w-full h-auto md:w-[200px] md:h-[300px] aspect-[2/3] object-cover mx-auto rounded">
-                        <h3 class="text-lg font-bold mt-2">Кроссовки</h3>
-                        <p class="text-xl font-bold mt-2">5 990 ₽</p>
+                        <h3 class="text-lg font-bold mt-2"><?=$product['nameProduct']?></h3>
+                        <p class="text-xl font-bold mt-2"><?=$product['priceProduct']?> ₽</p>
                     </a>
-                    <!-- Товар 2 -->
+                    <?
+                    }
+                    ?>
+
+                    <!-- Добавлена база. По этому убраны. -->
+
+                    <!-- Товар 2
                     <a href="product.html?id=2" class="product bg-white p-4 rounded-lg shadow-md text-center cursor-pointer transition-transform transform hover:scale-105" data-category="clothes">
                         <img src="https://i.pinimg.com/736x/60/d4/5d/60d45d1243eec4c28fbf821b9e8474f8.jpg" 
                             alt="Часы" 
@@ -56,14 +71,14 @@
                         <h3 class="text-lg font-bold mt-2">Часы</h3>
                         <p class="text-xl font-bold mt-2">12 990 ₽</p>
                     </a>
-                    <!-- Товар 3 -->
+                    Товар 3
                     <a href="product.html?id=3" class="product bg-white p-4 rounded-lg shadow-md text-center cursor-pointer transition-transform transform hover:scale-105" data-category="electronics">
                         <img src="https://i.pinimg.com/736x/dc/83/0d/dc830d29ef745d02c123917764644f33.jpg" 
                             alt="Наушники" 
                             class="max-w-full h-auto md:w-[200px] md:h-[300px] aspect-[2/3] object-cover mx-auto rounded">
                         <h3 class="text-lg font-bold mt-2">Наушники</h3>
                         <p class="text-xl font-bold mt-2">7 490 ₽</p>
-                    </a>
+                    </a> -->
                 </div>
             </div>
         </section>

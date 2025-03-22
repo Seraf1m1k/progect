@@ -1,18 +1,19 @@
 <?php
-require_once "../sqlconnect.php";
+require_once "../session.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-    $name = trim($_POST['name']);
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
+    $name = trim($_POST["name"]);
+    $email = trim($_POST["email"]);
+    $password = trim($_POST["password"]);
 
     if (empty($name) || empty($email) || empty($password)) 
     {
-        die("Пожалуйста, заполните все поля.");
+        AlertJS("Заполните все поля", 3);
+        exit();
     }
 
-    $query = $conn->prepare("SELECT `email` FROM `users` WHERE `email` == ?");
+    $query = $conn->prepare("SELECT `email` FROM `users` WHERE `email` = ?");
     $query->bind_param("s", $email);
     $query->execute();
     $result = $query->get_result();
@@ -20,7 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
     if ($result->num_rows > 0)
     {
-        die("Такая почта уже зарегестрирована.");
+        AlertJS("Такая почта уже существует", 3);
+        exit();
     }
 
     // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -29,8 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $query->execute();
     $query->close();
 
-
-    // header("Location: index.php");
+    StartSession($result->fetch_assoc());
+    AlertJS("Успешно", 1, "user.php");
 
 }
+exit();
 ?>
