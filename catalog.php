@@ -1,5 +1,6 @@
 <?php
-require_once "php/catalog/catalog.php";
+require_once "php/shop/catalog.php";
+require_once "header.php";
 ?>
 
 <!DOCTYPE html>
@@ -14,17 +15,20 @@ require_once "php/catalog/catalog.php";
     <script src="script.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
-<?php require 'header.php'; ?>
-
         <!-- Поиск и фильтр -->
         <section class="py-6 bg-white shadow">
             <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
                 <input id="search" type="text" placeholder="Поиск товаров..." class="w-full md:w-1/3 p-2 border border-gray-300 rounded">
                 <select id="categoryFilter" class="mt-4 md:mt-0 p-2 border border-gray-300 rounded">
                     <option value="all">Все категории</option>
-                    <option value="shoes">Обувь</option>
-                    <option value="clothes">Одежда</option>
-                    <option value="electronics">Электроника</option>
+                    <?php
+                    while($category = $queryCategory->fetch_assoc())
+                    {
+                    ?>
+                    <option value="<?=$category["name"]?>"><?=$category["name"]?></option>
+                    <?php
+                    }
+                    ?>
                 </select>
             </div>
         </section>
@@ -36,40 +40,21 @@ require_once "php/catalog/catalog.php";
                 <h2 class="text-3xl font-bold text-center mb-6">Каталог товаров</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Товар 1 -->
-                    <?
-                    while ($product = $query->fetch_assoc())
+                    <?php
+                    while ($product = $queryProducts->fetch_assoc())
                     {
                     ?>     
-                    <a href="product.php?id=<?=$product['id']?>" class="product bg-white p-4 rounded-lg shadow-md text-center cursor-pointer transition-transform transform hover:scale-105" data-category="<?=$product['categoryProduct']?>">
+                    <a href="product.php?id=<?=$product["id"]?>" class="product bg-white p-4 rounded-lg shadow-md text-center cursor-pointer transition-transform transform hover:scale-105" data-category="<?=$product["categoryProductID"]?>">
                     <!-- Ещё не известно как картинки будут сохронять  -->
-                    <img src="<?=$product['imageProduct']?>" 
-                            alt="<?=$product['nameProduct']?>" 
+                    <img src="<?=$product["imageProduct"]?>" 
+                            alt="<?=$product["nameProduct"]?>" 
                             class="max-w-full h-auto md:w-[200px] md:h-[300px] aspect-[2/3] object-cover mx-auto rounded">
-                        <h3 class="text-lg font-bold mt-2"><?=$product['nameProduct']?></h3>
-                        <p class="text-xl font-bold mt-2"><?=$product['priceProduct']?> ₽</p>
+                        <h3 class="text-lg font-bold mt-2"><?=$product["nameProduct"]?></h3>
+                        <p class="text-xl font-bold mt-2"><?=$product["priceProduct"]?> ₽</p>
                     </a>
-                    <?
+                    <?php
                     }
                     ?>
-
-                    <!-- Добавлена база. По этому убраны. -->
-
-                    <!-- Товар 2
-                    <a href="product.html?id=2" class="product bg-white p-4 rounded-lg shadow-md text-center cursor-pointer transition-transform transform hover:scale-105" data-category="clothes">
-                        <img src="https://i.pinimg.com/736x/60/d4/5d/60d45d1243eec4c28fbf821b9e8474f8.jpg" 
-                            alt="Часы" 
-                            class="max-w-full h-auto md:w-[200px] md:h-[300px] aspect-[2/3] object-cover mx-auto rounded">
-                        <h3 class="text-lg font-bold mt-2">Часы</h3>
-                        <p class="text-xl font-bold mt-2">12 990 ₽</p>
-                    </a>
-                    Товар 3
-                    <a href="product.html?id=3" class="product bg-white p-4 rounded-lg shadow-md text-center cursor-pointer transition-transform transform hover:scale-105" data-category="electronics">
-                        <img src="https://i.pinimg.com/736x/dc/83/0d/dc830d29ef745d02c123917764644f33.jpg" 
-                            alt="Наушники" 
-                            class="max-w-full h-auto md:w-[200px] md:h-[300px] aspect-[2/3] object-cover mx-auto rounded">
-                        <h3 class="text-lg font-bold mt-2">Наушники</h3>
-                        <p class="text-xl font-bold mt-2">7 490 ₽</p>
-                    </a> -->
                 </div>
             </div>
         </section>

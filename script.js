@@ -115,10 +115,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.json())
                 .then(data => {
                     showNotification(data.str, data.type);
-                    if (data.redirect) {
+                    if (data.resetform){
+                        form.reset();
+                    }
+                    if (data.redirect){
                         window.location.href = data.redirect;
                     }
-                    form.reset();
                 })
             }
         });
