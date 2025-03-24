@@ -1,3 +1,7 @@
+<?php 
+require_once "header.php"; 
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -11,7 +15,6 @@
 </head>
 <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
 
-    <?php require 'header.php'; ?>
 
     <main class="flex-grow">
         <section class="py-10">

@@ -1,3 +1,7 @@
+<?php
+require_once "header.php";
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -10,7 +14,6 @@
     <script src="script.js"></script>
 </head>
 
-<?php require 'header.php'; ?>
 <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
     <section class="py-10">
         <div class="container mx-auto px-6">

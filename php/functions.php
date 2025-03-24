@@ -1,5 +1,5 @@
 <?php
-function AlertJS(string $str, int $type = 4, string $url = "")
+function AlertJS(string $str, int $type = 4, bool $resetform = false, string $url = "")
 {
     $error = 0;
     switch ($type)
@@ -21,6 +21,7 @@ function AlertJS(string $str, int $type = 4, string $url = "")
     [ 
         "str" => $str,
         "type" => $error,
+        "resetform" => $resetform,
         "redirect" => $url
     ];
     header("Content-Type: application/json");

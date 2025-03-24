@@ -1,6 +1,6 @@
 <?php
 require_once "php/session.php";
-session_start();
+require_once "header.php";
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +17,6 @@ session_start();
 <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
 
     
-    <?php require 'header.php'; ?>
 
 
     <!-- Главный баннер -->
