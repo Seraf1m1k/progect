@@ -16,67 +16,9 @@ session_start();
 </head>
 <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
 
-    <!-- Навигация -->
-    <nav class="bg-white shadow-md py-4">
-        <div class="container mx-auto flex justify-between items-center px-6">
-            <a href="index.php" class="text-2xl font-bold">Магазин</a>
-            <ul class="flex space-x-6">
-                <li><a href="index.php" class="hover:text-blue-500">Главная</a></li>
-                <li><a href="contacts.html" class="hover:text-blue-500">Контакты</a></li>
-
-                <?
-                if (isset($_SESSION["name"]))
-                {
-                ?>
-                <li><a href="user.php" class="hover:text-blue-500"><?=$_SESSION["name"]?></a></li>
-                <?
-                } 
-                else 
-                {
-                ?>    
-                <li><button id="openLogin" class="hover:text-blue-500">Войти</button></li>
-                <?
-                }
-                ?>
-
-
-            </ul>
-        </div>
-    </nav>
-
-     <!-- Модальное окно ВХОДА -->
-    <!-- Добавлена <form>. Так же добавлен тип кнопки "sumbit" и "name" для полей -->
-
-    <div id="loginModal" class="fixed inset-0 bg-opacity-50 flex items-center justify-center hidden z-[1000]">
-        <div class="bg-white p-6 rounded-lg w-96 relative">
-            <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl" id="closeLogin">&times;</button>
-            <form action="/php/session/auth.php"> <!-- NEW -->
-                <h2 class="text-2xl font-bold text-center mb-4">Вход</h2>
-                <input type="email" name="email" placeholder="Email" class="w-full p-2 border rounded mb-3">
-                <input type="password" name="password" placeholder="Пароль" class="w-full p-2 border rounded mb-3">
-                <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Войти</button>
-            </form> <!-- NEW END -->
-            <p class="text-center mt-4">Нет аккаунта? <button id="openRegister" class="text-blue-500">Регистрация</button></p>
-        </div>
-    </div>
-
-    <!-- Модальное окно РЕГИСТРАЦИИ -->
-    <!-- Добавлена <form>. Так же добавлен тип кнопки "sumbit" и "name" для полей -->
     
-    <div id="registerModal" class="fixed inset-0 bg-opacity-50 flex items-center justify-center hidden  z-[1000]">
-        <div class="bg-white p-6 rounded-lg w-96 relative">
-            <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl" id="closeRegister">&times;</button>
-            <form action="/php/session/reg.php"> <!-- NEW -->
-                <h2 class="text-2xl font-bold text-center mb-4">Регистрация</h2>
-                <input type="text" name="name" placeholder="Имя" class="w-full p-2 border rounded mb-3">
-                <input type="email" name="email" placeholder="Email" class="w-full p-2 border rounded mb-3">
-                <input type="password" name="password" placeholder="Пароль" class="w-full p-2 border rounded mb-3">
-                <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">Зарегистрироваться</button>
-            </form> <!-- NEW END -->
-            <p class="text-center mt-4">Уже есть аккаунт? <button id="backToLogin" class="text-blue-500">Войти</button></p>
-        </div>
-    </div>
-    
+    <?php require 'header.php'; ?>
+
 
     <!-- Главный баннер -->
     <header class="relative w-full h-96 bg-cover bg-center flex items-center justify-center text-white" 
@@ -94,7 +36,7 @@ session_start();
             <h2 class="text-3xl font-bold text-center mb-6">Категории товаров</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                <a href="catalog.php?category=shoes" class="bg-white p-4 rounded-lg shadow-md text-center block">
+                <a href="catalog.php?category=shoes" class="bg-white p-4 rounded-lg shadow-md text-center block transition-transform transform cursor-pointer hover:scale-105">
                     <img src="https://i.pinimg.com/736x/61/70/9b/61709b7bec77ffab3d0b684ad78a2c58.jpg" 
                         alt="Обувь" 
                         class="w-full h-[200px] md:h-[250px] object-cover object-center rounded">
@@ -153,42 +95,5 @@ session_start();
             <p>&copy; 2025 Магазин. Все права защищены.</p>
         </div>
     </footer>
-
-    <script>
-        const loginModal = document.getElementById("loginModal");
-        const registerModal = document.getElementById("registerModal");
-    
-        document.getElementById("openLogin").addEventListener("click", () => {
-            loginModal.classList.remove("hidden");
-        });
-    
-        document.getElementById("closeLogin").addEventListener("click", () => {
-            loginModal.classList.add("hidden");
-        });
-    
-        document.getElementById("openRegister").addEventListener("click", () => {
-            loginModal.classList.add("hidden");
-            registerModal.classList.remove("hidden");
-        });
-    
-        document.getElementById("closeRegister").addEventListener("click", () => {
-            registerModal.classList.add("hidden");
-        });
-    
-        document.getElementById("backToLogin").addEventListener("click", () => {
-            registerModal.classList.add("hidden");
-            loginModal.classList.remove("hidden");
-        });
-    
-        // Закрытие окна при клике вне формы
-        window.addEventListener("click", (e) => {
-            if (e.target === loginModal) {
-                loginModal.classList.add("hidden");
-            }
-            if (e.target === registerModal) {
-                registerModal.classList.add("hidden");
-            }
-        });
-    </script>
 </body>
 </html>

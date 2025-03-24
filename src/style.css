@@ -39,3 +39,17 @@ img:after {
   background-color: #007bff;
   border-radius: 10px;
 }
+
+/* 🔹 Кастомный скролл */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #9ca3af; /* Цвет ползунка */
+  border-radius: 10px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background-color: #f3f4f6; /* Цвет фона скролла */
+}

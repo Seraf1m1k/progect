@@ -9,18 +9,9 @@
     <script src="loader.js"></script>
     <script src="script.js"></script>
 </head>
+
+<?php require 'header.php'; ?>
 <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
-
-    <nav class="bg-white shadow-md py-4">
-        <div class="container mx-auto flex justify-between items-center px-6">
-            <a href="index.php" class="text-2xl font-bold">Магазин</a>
-            <ul class="flex space-x-6">
-                <li><a href="index.php" class="hover:text-blue-500">Главная</a></li>
-                <li><a href="catalog.php" class="hover:text-blue-500">Каталог</a></li>
-            </ul>
-        </div>
-    </nav>
-
     <section class="py-10">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-6">Контакты</h2>
