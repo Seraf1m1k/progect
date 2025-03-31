@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     if ($result->num_rows > 0)
     {
         StartSession($result->fetch_assoc());
-        AlertJS("Успешно", 4, "user.php");
+        AlertJS("Успешно", 4, false, "user.php");
     }
     else
     {

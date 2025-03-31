@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 
 <!-- Навигация -->
 <nav class="bg-white shadow-md py-4">
@@ -10,15 +13,15 @@
 
             <!-- Корзина должна быть доступна только если человек находится в профиле -->
             <li><a href="cart.php" class="hover:text-blue-500">Корзина</a></li>
-            <?
+            <?php
             if (isset($_SESSION["name"])) {
             ?>
                 <li><a href="user.php" class="hover:text-blue-500"><?= $_SESSION["name"] ?></a></li>
-            <?
+            <?php
             } else {
             ?>
                 <li><button id="openLogin" class="hover:text-blue-500">Войти</button></li>
-            <?
+            <?php
             }
             ?>
         </ul>

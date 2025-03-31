@@ -29,7 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $query->bind_param("sss", $newPass, $_SESSION["email"], $oldPass);
             $query->execute();
             $query->close();
-            AlertJS("Успешно",1);
+            AlertJS("Успешно",1, true);
+            UpdateSessionDate($conn, $email, $newPass);
             exit();
         }
         else

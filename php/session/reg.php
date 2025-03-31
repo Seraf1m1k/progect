@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $query->close();
 
     StartSession($result->fetch_assoc());
-    AlertJS("Успешно", 1, "user.php");
+    AlertJS("Успешно", 1, false, "user.php");
 
 }
 exit();

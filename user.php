@@ -54,14 +54,16 @@ session_start();
             <div id="addressSection" class="hidden">
                 <h2 class="text-2xl font-semibold mb-4">Адрес доставки</h2>
                 <div class="space-y-4">
-                    <div>
-                        <label for="address" class="block text-lg">Адрес</label>
-                        <input id="address" type="text" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Введите адрес" title="Начните ввод с 'г.' (например, г.Кемерово)" />
-                        <ul id="citySuggestions" class="bg-white border border-gray-300 mt-2 rounded-md hidden absolute w-full z-10"></ul>
-                    </div>
-                    <button type="submit" id="" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
-                        Сохранить
-                    </button>
+                    <form action="php/session/readdress.php">
+                        <div>
+                            <label for="address" class="block text-lg">Адрес</label>
+                            <input id="address" name="address" type="text" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Введите адрес" title="Начните ввод с 'г.' (например, г.Кемерово)" value="<?=$_SESSION["address"]?>" />
+                            <ul id="citySuggestions" class="bg-white border border-gray-300 mt-2 rounded-md hidden absolute w-full z-10"></ul>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
+                            Сохранить
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -69,22 +71,23 @@ session_start();
             <div id="contactSection" class="hidden">
                 <h2 class="text-2xl font-semibold mb-4">Контактные данные</h2>
                 <div class="space-y-4">
-                    <div>
-                        <label for="fullName" class="block text-lg">Имя</label>
-                        <input id="fullName" type="text" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Введите ФИО" value="<?=$_SESSION["name"]?>"/>
-                    </div>
-                    <div>
-                        <label for="phone" class="block text-lg">Номер телефона</label>
-                        <input id="phone" type="text" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Введите номер телефона" value="<?=$_SESSION["phone_number"]?>" />
-                    </div>
-                    <div>
-                        <label for="email" class="block text-lg">Email</label>
-                        <input id="email" type="email" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Введите email" value="<?=$_SESSION["email"]?>" />
-                    </div>
-                    <button type="submit" id="" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
-                        Сохранить
-                    </button>
-
+                    <form action="php/session/redate.php">
+                        <div>
+                            <label for="fullName" class="block text-lg">Имя</label>
+                            <input id="fullName" name="name" type="text" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Введите ФИО" value="<?=$_SESSION["name"]?>"/>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-lg">Номер телефона</label>
+                            <input id="phone" name="phone_number" type="text" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Введите номер телефона" value="<?=$_SESSION["phone_number"]?>" />
+                        </div>
+                        <div>
+                            <label for="email" class="block text-lg">Email</label>
+                            <input id="email" name="email" type="email" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Введите email" value="<?=$_SESSION["email"]?>" />
+                        </div>
+                        <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
+                            Сохранить
+                        </button>
+                    </form>
 
                     <!-- ✅ Чекбокс для смены пароля -->
                     <div class="flex items-center space-x-2">
@@ -107,7 +110,7 @@ session_start();
                                 <label for="confirmNewPassword" class="block text-lg">Подтвердите новый пароль</label>
                                 <input id="confirmNewPassword" name="newPassword2" type="password" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Повторите новый пароль" />
                             </div>
-                            <button type="submit" id="updatePasswordBtn" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
+                            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
                                 Обновить пароль
                             </button>
 					</form>
@@ -148,7 +151,6 @@ session_start();
 			document.addEventListener("DOMContentLoaded", () => {
 			const changePasswordCheckbox = document.getElementById("changePasswordCheckbox");
 			const passwordFields = document.getElementById("passwordFields");
-			const updatePasswordBtn = document.getElementById("updatePasswordBtn");
 
 			// ✅ Показать/скрыть поля смены пароля при активации чекбокса
 			changePasswordCheckbox.addEventListener("change", () => {
