@@ -124,8 +124,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-
 // Как использовать?
 // showNotification("Данные успешно сохранены!", "success");            Зеленый
 // showNotification("Ошибка при загрузке!", "error");                   Красный

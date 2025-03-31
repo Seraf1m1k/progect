@@ -32,7 +32,7 @@ session_start();
         
     <!-- Категории -->
     <section class="py-10">
-        <div class="container mx-auto px-6">
+    <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-6">Категории товаров</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -57,37 +57,76 @@ session_start();
                     <h3 class="text-lg font-bold mt-2">Электроника</h3>
                 </a>
 
+
+
+                <a href="catalog.php?category=electronics" class="bg-white p-4 rounded-lg shadow-md text-center block">
+                    <img src="https://i.pinimg.com/736x/0a/9e/e9/0a9ee98bc57b4e317f9590895e1ae4cf.jpg" 
+                        alt="Электроника" 
+                        class="w-full h-[200px] md:h-[250px] object-cover object-center rounded">
+                    <h3 class="text-lg font-bold mt-2">Электроника</h3>
+                </a>
+                <a href="catalog.php?category=electronics" class="bg-white p-4 rounded-lg shadow-md text-center block">
+                    <img src="https://i.pinimg.com/736x/0a/9e/e9/0a9ee98bc57b4e317f9590895e1ae4cf.jpg" 
+                        alt="Электроника" 
+                        class="w-full h-[200px] md:h-[250px] object-cover object-center rounded">
+                    <h3 class="text-lg font-bold mt-2">Электроника</h3>
+                </a>
+                <a href="catalog.php?category=electronics" class="bg-white p-4 rounded-lg shadow-md text-center block">
+                    <img src="https://i.pinimg.com/736x/0a/9e/e9/0a9ee98bc57b4e317f9590895e1ae4cf.jpg" 
+                        alt="Электроника" 
+                        class="w-full h-[200px] md:h-[250px] object-cover object-center rounded">
+                    <h3 class="text-lg font-bold mt-2">Электроника</h3>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Популярные товары -->
-    <section class="py-10 bg-gray-200">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-6">Популярные товары</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<section class="py-10 bg-gray-200">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-6">Популярные товары</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <?php
+            // Подключение к БД
+            require 'db_connect.php'; // Подключаем файл с параметрами БД
 
-                <div class="bg-white p-4 rounded-lg shadow-md text-center">
-                    <img src="https://i.pinimg.com/736x/6a/16/e0/6a16e0c15c269b8df76730d99359f1eda.jpg" alt="" class="w-full rounded">
-                    <h3 class="text-lg font-bold mt-2">Часы</h3>
-                    <p class="text-xl font-bold mt-2">12 990 ₽</p>
-                </div>
+            // Запрос на выборку 3 самых популярных товаров по средней оценке
+            $query = "SELECT products.id, products.name, products.image, products.price, 
+                             COUNT(reviews.id) AS review_count, 
+                             COALESCE(AVG(reviews.rating), 0) AS avg_rating
+                      FROM products
+                      LEFT JOIN reviews ON products.id = reviews.product_id
+                      GROUP BY products.id
+                      ORDER BY avg_rating DESC, review_count DESC
+                      LIMIT 3";
 
-                <div class="bg-white p-4 rounded-lg shadow-md text-center">
-                    <img src="https://i.pinimg.com/736x/dc/83/0d/dc830d29ef745d02c123917764644f33.jpg" alt="Наушники" class="w-full rounded">
-                    <h3 class="text-lg font-bold mt-2">Наушники</h3>
-                    <p class="text-xl font-bold mt-2">7 490 ₽</p>
-                </div>
+            $result = mysqli_query($conn, $query);
 
-                <div class="bg-white p-4 rounded-lg shadow-md text-center">
-                    <img src="https://i.pinimg.com/736x/d6/93/8e/d6938e031c086a89942d2b8cd16829a3.jpg" alt="Смартфон" class="w-full rounded">
-                    <h3 class="text-lg font-bold mt-2">Смартфон</h3>
-                    <p class="text-xl font-bold mt-2">39 990 ₽</p>
-                </div>
+            while ($row = mysqli_fetch_assoc($result)) {
+                $productId = $row['id'];
+                $productName = htmlspecialchars($row['name']);
+                $productImage = htmlspecialchars($row['image']);
+                $productPrice = number_format($row['price'], 0, ',', ' ');
+                $reviewCount = $row['review_count'];
+                $avgRating = round($row['avg_rating'], 1);
 
-            </div>
+                echo "
+                <div class='bg-white p-4 rounded-lg shadow-md text-center'>
+                    <img src='$productImage' alt='$productName' class='w-full rounded'>
+                    <h3 class='text-lg font-bold mt-2'>$productName</h3>
+                    <p class='text-xl font-bold mt-2'>$productPrice ₽</p>
+                    <div class='flex justify-center items-center mt-2'>
+                        <span class='text-yellow-500 text-lg'>★ $avgRating</span>
+                        <span class='ml-2 text-gray-600 text-sm'>($reviewCount)</span>
+                    </div>
+                </div>";
+            }
+
+            mysqli_close($conn);
+            ?>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Подвал -->
     <footer class="bg-gray-800 text-white py-6 mt-auto">

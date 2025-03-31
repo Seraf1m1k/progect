@@ -7,30 +7,44 @@
             <li><a href="index.php" class="hover:text-blue-500">Главная</a></li>
             <li><a href="contacts.php" class="hover:text-blue-500">Контакты</a></li>
             <li><a href="favorites.php" class="hover:text-blue-500">Избранное</a></li>
-            
+
             <!-- Корзина должна быть доступна только если человек находится в профиле -->
             <li><a href="cart.php" class="hover:text-blue-500">Корзина</a></li>
             <?
-            if (isset($_SESSION["name"]))
-            {
+            if (isset($_SESSION["name"])) {
             ?>
-            <li><a href="user.php" class="hover:text-blue-500"><?=$_SESSION["name"]?></a></li>
+                <li><a href="user.php" class="hover:text-blue-500"><?= $_SESSION["name"] ?></a></li>
             <?
-            } 
-            else 
-            {
-            ?>    
-            <li><button id="openLogin" class="hover:text-blue-500">Войти</button></li>
+            } else {
+            ?>
+                <li><button id="openLogin" class="hover:text-blue-500">Войти</button></li>
             <?
             }
             ?>
-
-
         </ul>
-    </div>
-</nav>
 
- <!-- Модальное окно ВХОДА -->
+
+        
+                    <!--Меню под мобильное устройство-->
+                    <!-- Мобильное меню (изначально скрыто) -->
+            <div id="dropdownDivider" class="hidden z-[1000] bg-white shadow-lg rounded-lg border dark:bg-gray-800 dark:border-gray-700 w-48 p-2">
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                    <li><a href="index.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Главная</a></li>
+                    <li><a href="contacts.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Контакты</a></li>
+                    <li><a href="favorites.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Избранное</a></li>
+                    <li><a href="cart.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Корзина</a></li>
+                    <? if (isset($_SESSION["name"])) { ?>
+                        <li><a href="user.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"><?= $_SESSION["name"] ?></a></li>
+                    <? } ?>
+                </ul>
+                <div class="border-t border-gray-200 dark:border-gray-700">
+                    <button id="openLogin1" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-gray-100 dark:hover:bg-gray-700">Войти</button>
+                </div>
+            </div>
+        </div>
+        </nav>
+
+<!-- Модальное окно ВХОДА -->
 <!-- Добавлена <form>. Так же добавлен тип кнопки "sumbit" и "name" для полей -->
 
 <div id="loginModal" class="fixed inset-0 bg-opacity-50 flex items-center justify-center hidden z-[1000]">
@@ -63,38 +77,100 @@
     </div>
 </div>
 <script>
-        const loginModal = document.getElementById("loginModal");
-        const registerModal = document.getElementById("registerModal");
     
-        document.getElementById("openLogin").addEventListener("click", () => {
-            loginModal.classList.remove("hidden");
-        });
-    
-        document.getElementById("closeLogin").addEventListener("click", () => {
-            loginModal.classList.add("hidden");
-        });
-    
-        document.getElementById("openRegister").addEventListener("click", () => {
-            loginModal.classList.add("hidden");
-            registerModal.classList.remove("hidden");
-        });
-    
-        document.getElementById("closeRegister").addEventListener("click", () => {
-            registerModal.classList.add("hidden");
-        });
-    
-        document.getElementById("backToLogin").addEventListener("click", () => {
-            registerModal.classList.add("hidden");
-            loginModal.classList.remove("hidden");
-        });
-    
-        // Закрытие окна при клике вне формы
-        window.addEventListener("click", (e) => {
-            if (e.target === loginModal) {
-                loginModal.classList.add("hidden");
+    const loginModal = document.getElementById("loginModal");
+    const registerModal = document.getElementById("registerModal");
+
+    const navList = document.querySelector("nav ul"); // Десктопное меню
+    const navContainer = document.querySelector("nav .container"); // Контейнер навигации
+    const dropdownMenu = document.getElementById("dropdownDivider"); // Мобильное меню
+    let burgerButton = document.getElementById("dropdownDividerButton"); // Бургер-кнопка
+
+    function updateMenu() {
+        const screenWidth = window.innerWidth;
+
+        if (screenWidth < 1000) {
+            // Скрываем основное меню
+            if (navList) navList.classList.add("hidden");
+
+            // Если кнопки нет, создаём её
+            if (!burgerButton) {
+                burgerButton = document.createElement("button");
+                burgerButton.id = "dropdownDividerButton";
+                burgerButton.className = "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800";
+                burgerButton.innerHTML = `<label class="cursor-pointer text-gray-700 text-3xl">&#9776;</label>`;
+
+                // Вставляем кнопку перед меню
+                navContainer.appendChild(burgerButton);
+
+                // Добавляем обработчик клика
+                burgerButton.addEventListener("click", function () {
+                    dropdownMenu.classList.toggle("hidden");
+
+                    // Располагаем меню НИЖЕ кнопки на всю ширину экрана
+                    if (!dropdownMenu.classList.contains("hidden")) {
+                        dropdownMenu.style.position = "absolute";
+                        dropdownMenu.style.top = `${burgerButton.offsetTop + burgerButton.offsetHeight}px`; // Отступ вниз
+                        dropdownMenu.style.left = "0";
+                        dropdownMenu.style.width = "100vw"; // Полная ширина экрана
+                    }
+                });
             }
-            if (e.target === registerModal) {
-                registerModal.classList.add("hidden");
+        } else {
+            // Показываем десктопное меню и удаляем кнопку
+            if (navList) navList.classList.remove("hidden");
+
+            if (burgerButton) {
+                burgerButton.remove();
+                burgerButton = null;
             }
-        });
-    </script>
+
+            // Закрываем меню, если было открыто
+            dropdownMenu.classList.add("hidden");
+        }
+    }
+
+    // Запускаем при загрузке и изменении размера окна
+    updateMenu();
+    window.addEventListener("resize", updateMenu);
+
+
+    
+
+    document.getElementById("openLogin").addEventListener("click", () => {
+        loginModal.classList.remove("hidden");
+    });
+    document.getElementById("openLogin1").addEventListener("click", () => {
+        loginModal.classList.remove("hidden");
+    });
+
+    document.getElementById("closeLogin").addEventListener("click", () => {
+        loginModal.classList.add("hidden");
+    });
+
+    document.getElementById("openRegister").addEventListener("click", () => {
+        loginModal.classList.add("hidden");
+        registerModal.classList.remove("hidden");
+    });
+
+    document.getElementById("closeRegister").addEventListener("click", () => {
+        registerModal.classList.add("hidden");
+    });
+
+    document.getElementById("backToLogin").addEventListener("click", () => {
+        registerModal.classList.add("hidden");
+        loginModal.classList.remove("hidden");
+    });
+
+    // Закрытие окна при клике вне формы
+    window.addEventListener("click", (e) => {
+        if (e.target === loginModal) {
+            loginModal.classList.add("hidden");
+        }
+        if (e.target === registerModal) {
+            registerModal.classList.add("hidden");
+        }
+    });
+
+</script>
+    
