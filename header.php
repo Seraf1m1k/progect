@@ -10,7 +10,7 @@ session_start();
             <li><a href="index.php" class="hover:text-blue-500">Главная</a></li>
             <li><a href="contacts.php" class="hover:text-blue-500">Контакты</a></li>
             <li><a href="favorites.php" class="hover:text-blue-500">Избранное</a></li>
-
+            <li><a href="admin.php" class="hover:text-blue-500">ADMINISTRATOR</a></li>
             <!-- Корзина должна быть доступна только если человек находится в профиле -->
             <li><a href="cart.php" class="hover:text-blue-500">Корзина</a></li>
             <?php
