@@ -108,7 +108,7 @@ require_once "header.php";
           setTimeout(() => {
             resolve({
               name: "RHJCJDJR",
-              image: "https://source.unsplash.com/500x500/?shoes",
+              image: "https://i.pinimg.com/736x/36/e7/90/36e790b7de94b1490ea0bda2a4aac297.jpg",
               price: "5 990 ₽",
               stock: true,
               desc: "Эти кроссовки сочетают комфорт и стиль. Идеальный выбор для активного образа жизни.",

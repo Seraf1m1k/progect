@@ -22,7 +22,7 @@ require_once "header.php";
 
                 <div class="flex justify-between items-center border-b pb-4">
                     <div class="flex items-center">
-                        <img src="https://source.unsplash.com/100x100/?shoes" alt="Товар" class="rounded-lg">
+                        <img src="https://i.pinimg.com/736x/4c/1e/4e/4c1e4e6cde8ffc33cf5c1cca62a32221.jpg" alt="Товар" class="rounded-lg">
                         <div class="ml-4">
                             <h3 class="text-lg font-bold">Кроссовки</h3>
                             <p class="text-gray-600">5 990 ₽</p>
