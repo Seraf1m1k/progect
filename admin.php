@@ -1,46 +1,5 @@
 <?php
-header('Content-Type: text/html; charset=UTF-8');
-
-// Функция для загрузки пользователей
-function getUsers()
-{
-    return json_encode([
-        ["id" => 1, "name" => "Иван", "email" => "ivan@mail.com", "password" => "1234"],
-        ["id" => 2, "name" => "Анна", "email" => "anna@mail.com", "password" => "5678"]
-    ]);
-}
-
-// Функция для загрузки товаров
-function getProducts()
-{
-    return json_encode([
-        ["id" => 101, "name" => "Ноутбук", "price" => 50000, "rating" => 4.5],
-        ["id" => 102, "name" => "Смартфон", "price" => 30000, "rating" => 4.8]
-    ]);
-}
-
-// Обработка AJAX-запросов
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $data = json_decode(file_get_contents("php://input"), true);
-    if (isset($data["action"])) {
-        if ($data["action"] === "updateUser") {
-            echo json_encode(["message" => "Пользователь обновлен: " . $data["name"]]);
-        } elseif ($data["action"] === "deleteUser") {
-            echo json_encode(["message" => "Пользователь с ID " . $data["id"] . " удален"]);
-        }
-    }
-    exit();
-}
-
-// Запрос списка пользователей и товаров
-if (isset($_GET["getUsers"])) {
-    echo getUsers();
-    exit();
-} elseif (isset($_GET["getProducts"])) {
-    echo getProducts();
-    exit();
-}
-
+require_once "php/admins/admins.php";
 ?>
 
 
@@ -75,7 +34,21 @@ if (isset($_GET["getUsers"])) {
                         <th>Действия</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    <?php
+                    while ($user = $queryUsersForAdmins->fetch_assoc())
+                    {
+                    ?>
+                    <tr>
+                        <td><?=$user["name"]?></td>
+                        <td><?=$user["email"]?></td>
+                        <td><?=$user["password"]?></td>
+                        <td><button onclick="editUser('<?=$user['id']?>', '<?=$user['name']?>', '<?=$user['password']?>')">✏️</button></td>
+                    </tr>
+                    <?php
+                    }
+                    ?>
+                </tbody>
             </table>
         </section>
 
@@ -91,21 +64,39 @@ if (isset($_GET["getUsers"])) {
                         <th>Действия</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    <?php
+                    while ($product = $queryCatalogForAdmins->fetch_assoc())
+                    {
+                    ?>
+                    <tr>
+                        <td><?=$product["id"]?></td>
+                        <td><?=$product["nameProduct"]?></td>
+                        <td><?=$product["priceProduct"]?></td>
+                        <td>0</td>
+                        <td><button><a href="php/admins/deproduct.php?id='<?=$product['id']?>'">🗑️</a></button></button></td>
+                    </tr>
+                    <?php
+                    }
+                    ?>    
+                </tbody>
             </table>
         </section>
     </main>
 </div>
 
 <div id="userModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h3>Редактирование пользователя</h3>
-        <input type="text" id="editUserName" placeholder="Имя">
-        <input type="text" id="editUserPassword" placeholder="Пароль">
-        <button id="saveUser">Сохранить</button>
-        <button id="deleteUser">Удалить</button>
-    </div>
+    <form action="php/admins/reuser.php">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Редактирование пользователя</h3>
+            <input style="display: none;" id="editUserId" type="text" name="id">
+            <input type="text" id="editUserName" name="name" placeholder="Имя">
+            <input type="text" id="editUserPassword" name="password" placeholder="Пароль">
+            <button name="btn" value="upd" type="submit" >Сохранить</button>             
+            <button name="btn" value="del" type="submit">Удалить</button>
+        </div>
+    </form>
 </div>
 
 <script>
@@ -123,45 +114,8 @@ if (isset($_GET["getUsers"])) {
         loadProducts();
     });
 
-    function loadUsers() {
-        fetch("admin.php?getUsers")
-            .then(response => response.json())
-            .then(users => {
-                let tbody = document.querySelector("#usersTable tbody");
-                tbody.innerHTML = "";
-                users.forEach(user => {
-                    let row = tbody.insertRow();
-                    row.innerHTML = `
-                        <td>${user.name}</td>
-                        <td>${user.email}</td>
-                        <td>${user.password}</td>
-                        <td><button onclick="editUser(${user.id}, '${user.name}', '${user.password}')">✏️</button></td>
-                    `;
-                });
-            });
-    }
-    function loadProducts() {
-    fetch("admin.php?getProducts")
-        .then(response => response.json())
-        .then(products => {
-            let tbody = document.querySelector("#productsTable tbody");
-            tbody.innerHTML = "";
-            products.forEach(product => {
-                let row = tbody.insertRow();
-                row.innerHTML = `
-                    <td>${product.id}</td>
-                    <td>${product.name}</td>
-                    <td>${product.price}</td>
-                    <td>${product.rating}</td>
-                    <td><button onclick="deleteProduct(${product.id})">🗑️</button></td>
-                `;
-            });
-        })
-        .catch(error => console.error("Ошибка загрузки товаров:", error));
-}
-
     function editUser(id, name, password) {
-        currentUserId = id;
+        document.getElementById("editUserId").value = id;
         document.getElementById("editUserName").value = name;
         document.getElementById("editUserPassword").value = password;
         document.getElementById("userModal").style.display = "block";
