@@ -5,7 +5,10 @@ session_start();
 <!-- Навигация -->
 <nav class="bg-white shadow-md py-4">
     <div class="container mx-auto flex justify-between items-center px-6">
-        <a href="index.php" class="text-2xl font-bold">Магазин</a>
+    <a href="index.php" class="flex items-center space-x-2">
+        <img style="height: 32px;" src="src\img\aternia.games_token.png" alt="Логотип" class="object-cover rounded-full">
+        <span class="text-2xl font-bold">Магазин</span>
+    </a>
         <ul class="flex space-x-6">
             <li><a href="index.php" class="hover:text-blue-500">Главная</a></li>
             <li><a href="contacts.php" class="hover:text-blue-500">Контакты</a></li>

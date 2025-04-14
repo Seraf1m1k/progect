@@ -54,3 +54,7 @@ img:after {
   background-color: #f3f4f6; /* Цвет фона скролла */
 }
 
+#Logo{
+  width: 10px;
+  height: 10px;
+}
