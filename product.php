@@ -15,23 +15,44 @@ require_once "header.php";
 </head>
 <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
 
-  <?php require 'header.php'; ?>
-
   <main class="flex-grow">
-    <section class="py-10">
-      <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10">
-        <img id="productImage" src="" alt="Товар" class="w-full rounded-lg">
-        <div>
-          <h1 id="productName" class="text-3xl font-bold"></h1>
-          <div class="flex items-center space-x-2 mt-2">
-            <span id="productRating" class="text-yellow-500"></span>
-            <span id="reviewCount" class="text-gray-600"></span>
-          </div>
-          <p id="productStock" class="text-lg font-semibold mt-2"></p>
-          <p id="productPrice" class="text-2xl font-bold mt-4"></p>
-        </div>
+  <section class="py-10">
+  <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+    <img id="productImage" src="" alt="Товар" class="w-full rounded-lg">
+    <div>
+      <h1 id="productName" class="text-3xl font-bold"></h1>
+      <div class="flex items-center space-x-2 mt-2">
+        <span id="productRating" class="text-yellow-500"></span>
+        <span id="reviewCount" class="text-gray-600"></span>
       </div>
-    </section>
+      <p id="productStock" class="text-lg font-semibold mt-2"></p>
+      <p id="productPrice" class="text-2xl font-bold mt-4"></p>
+
+      <!-- Блок количества и кнопки -->
+      <div class="mt-6 flex items-center gap-4">
+        <!-- Контейнер количества -->
+        <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden shadow-sm">
+          <button id="decreaseQty" class="px-3 py-2 text-xl bg-gray-100 hover:bg-gray-200 transition">−</button>
+          <input
+            id="quantity"
+            type="text"
+            value="1"
+            class="w-14 text-center outline-none py-2 text-lg"
+            inputmode="numeric"
+            pattern="[0-9]*"
+          />
+          <button id="increaseQty" class="px-3 py-2 text-xl bg-gray-100 hover:bg-gray-200 transition">+</button>
+        </div>
+
+        <!-- Кнопка -->
+        <button id="addToCart" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg transition">
+          Добавить в корзину
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
 
     <!-- Блок описания и характеристик -->
     <section class="container mx-auto px-6 mt-10">
@@ -194,7 +215,50 @@ require_once "header.php";
         stars.forEach(s => s.classList.remove("text-yellow-500"));
       });
     });
+
+
+
+    
   </script>
+
+  <!-- кнопки добавления в карзину и - + -->
+  <script>
+  const qtyInput = document.getElementById('quantity');
+  const increaseBtn = document.getElementById('increaseQty');
+  const decreaseBtn = document.getElementById('decreaseQty');
+  const addToCartBtn = document.getElementById('addToCart');
+
+  // Увеличение
+  increaseBtn.addEventListener('click', () => {
+    let value = parseInt(qtyInput.value) || 1;
+    qtyInput.value = value + 1;
+  });
+
+  // Уменьшение
+  decreaseBtn.addEventListener('click', () => {
+    let value = parseInt(qtyInput.value) || 1;
+    if (value > 1) {
+      qtyInput.value = value - 1;
+    }
+  });
+
+  // Разрешаем ввод только цифр
+  qtyInput.addEventListener('input', (e) => {
+    qtyInput.value = qtyInput.value.replace(/[^0-9]/g, '');
+    if (qtyInput.value === '') qtyInput.value = '1';
+  });
+
+  // Обработка кнопки
+  addToCartBtn.addEventListener('click', () => {
+    const quantity = parseInt(qtyInput.value) || 1;
+    const productName = document.getElementById('productName').textContent;
+    const price = document.getElementById('productPrice').textContent;
+
+    alert(`🛒 Вы добавили ${quantity} x "${productName}" в корзину (Цена: ${price})`);
+    console.log(`Добавлено: ${quantity} x ${productName}`);
+  });
+</script>
+
 
 </body>
 </html>
