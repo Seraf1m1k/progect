@@ -75,7 +75,7 @@ require_once "php/admins/admins.php";
                         <td><?=$product["id"]?></td>
                         <td><?=$product["nameProduct"]?></td>
                         <td><?=$product["priceProduct"]?></td>
-                        <td>0</td>
+                        <td><?=$product["rating"]?></td>
                         <td><button><a href="php/admins/deproduct.php?id='<?=$product['id']?>'">🗑️</a></button></button>
                         <button onclick="editProduct('<?=$product['id']?>', '<?=$product['nameProduct']?>', '<?=$product['priceProduct']?>')">✏️</button></td>
                     </tr>
@@ -103,14 +103,16 @@ require_once "php/admins/admins.php";
 </div>
 <!-- Модальное окно редактирования товара -->
 <div id="productModal" class="modal fixed z-10 left-0 top-0 w-full h-full overflow-auto bg-black bg-opacity-50 hidden">
-    <div class="modal-content bg-white p-6 rounded-md shadow-md max-w-md mx-auto mt-24 relative">
-        <span class="close text-xl absolute top-2 right-4 cursor-pointer">&times;</span>
-        <h3 class="text-lg font-semibold mb-4">Редактирование товара</h3>
-        <input type="text" id="editProductId" class="hidden">
-        <input type="text" id="editProductName" placeholder="Наименование" class="w-full p-2 mb-2 border border-gray-300 rounded">
-        <input type="text" id="editProductPrice" placeholder="Цена" class="w-full p-2 mb-2 border border-gray-300 rounded">
-        <button id="saveProduct" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Сохранить</button>
-    </div>
+    <form action="php/admins/reproduct.php">
+        <div class="modal-content bg-white p-6 rounded-md shadow-md max-w-md mx-auto mt-24 relative">
+            <span class="close text-xl absolute top-2 right-4 cursor-pointer">&times;</span>
+            <h3 class="text-lg font-semibold mb-4">Редактирование товара</h3>
+            <input name="id" type="text" id="editProductId" class="hidden">
+            <input name="name" type="text" id="editProductName" placeholder="Наименование" class="w-full p-2 mb-2 border border-gray-300 rounded">
+            <input name="price" type="text" id="editProductPrice" placeholder="Цена" class="w-full p-2 mb-2 border border-gray-300 rounded">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Сохранить</button>
+        </div>
+    </form>
 </div>
 <script>
     let currentUserId = null;
