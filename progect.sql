@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3666
--- Время создания: Мар 24 2025 г., 18:47
+-- Время создания: Апр 18 2025 г., 16:40
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -42,18 +42,19 @@ CREATE TABLE `basket` (
 
 CREATE TABLE `category` (
   `id` int NOT NULL,
-  `name` varchar(255) NOT NULL
+  `name` varchar(255) NOT NULL,
+  `img` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Дамп данных таблицы `category`
 --
 
-INSERT INTO `category` (`id`, `name`) VALUES
-(1, 'Обувь'),
-(2, 'Одежда'),
-(3, 'Электроника '),
-(4, 'Игрушки');
+INSERT INTO `category` (`id`, `name`, `img`) VALUES
+(1, 'Обувь', 'https://i.pinimg.com/736x/0a/9e/e9/0a9ee98bc57b4e317f9590895e1ae4cf.jpg'),
+(2, 'Одежда', 'https://i.pinimg.com/736x/0a/9e/e9/0a9ee98bc57b4e317f9590895e1ae4cf.jpg'),
+(3, 'Электроника ', 'https://i.pinimg.com/736x/0a/9e/e9/0a9ee98bc57b4e317f9590895e1ae4cf.jpg'),
+(4, 'Игрушки', 'https://i.pinimg.com/736x/0a/9e/e9/0a9ee98bc57b4e317f9590895e1ae4cf.jpg');
 
 -- --------------------------------------------------------
 
@@ -88,7 +89,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `nameProduct`, `priceProduct`, `categoryProductID`, `descriptionProduct`, `descriptionProduct2`, `imageProduct`) VALUES
-(4, 'Одежда', 1111, 2, 'Описание', 'Хар-ки', 'https://i.pinimg.com/736x/68/49/2f/68492ff69d46f400af4d539807e00bb8.jpg');
+(5, 'Название ', 1000, 3, 'Описание', 'Хар-ки', 'https://i.pinimg.com/736x/88/2a/bb/882abb64ad91a07510188b8686b40058.jpg');
 
 -- --------------------------------------------------------
 
@@ -105,6 +106,13 @@ CREATE TABLE `reviews` (
   `reviewsDate` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
+--
+-- Дамп данных таблицы `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `reviewsProductID`, `reviewsUserID`, `reviewsText`, `reviewsStars`, `reviewsDate`) VALUES
+(1, 5, 3, 'Текст комента', 5, '2025-04-08');
+
 -- --------------------------------------------------------
 
 --
@@ -117,15 +125,17 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `phone_number` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `name` varchar(255) NOT NULL,
-  `address` varchar(255) DEFAULT NULL
+  `address` varchar(255) DEFAULT NULL,
+  `admin` varchar(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `password`, `phone_number`, `name`, `address`) VALUES
-(1, 'admin@admin.ru', '123', '12345', 'admin', '12321');
+INSERT INTO `users` (`id`, `email`, `password`, `phone_number`, `name`, `address`, `admin`) VALUES
+(1, 'admin@admin.ru', '123', '12345', 'admin', '12321', '1'),
+(3, 'sdsddssd', 'dssddssdsdsd', NULL, 'dssdsddssd', 'sddssdsdsd', '0');
 
 --
 -- Индексы сохранённых таблиц
@@ -200,19 +210,19 @@ ALTER TABLE `favourites`
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
