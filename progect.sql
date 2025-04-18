@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3666
--- Время создания: Апр 18 2025 г., 16:40
+-- Время создания: Апр 18 2025 г., 17:03
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -89,7 +89,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `nameProduct`, `priceProduct`, `categoryProductID`, `descriptionProduct`, `descriptionProduct2`, `imageProduct`) VALUES
-(5, 'Название ', 1000, 3, 'Описание', 'Хар-ки', 'https://i.pinimg.com/736x/88/2a/bb/882abb64ad91a07510188b8686b40058.jpg');
+(5, 'Название 1', 1000, 3, 'Описание', 'Хар-ки', 'https://i.pinimg.com/736x/88/2a/bb/882abb64ad91a07510188b8686b40058.jpg');
 
 -- --------------------------------------------------------
 
