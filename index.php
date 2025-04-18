@@ -39,7 +39,7 @@ require_once "php/shop/catalog.php";
             while ($category = $queryCategory->fetch_assoc())
             {
             ?>
-                <a href="catalog.php?category=shoes" class="bg-white p-4 rounded-lg shadow-md text-center block transition-transform transform cursor-pointer hover:scale-105">
+                <a href="catalog.php?category=<?=$category['name']?>" class="bg-white p-4 rounded-lg shadow-md text-center block transition-transform transform cursor-pointer hover:scale-105">
                     <img src="<?=$category['img']?>" 
                         alt="<?=$category['name']?>" 
                         class="w-full h-[200px] md:h-[250px] object-cover object-center rounded">
