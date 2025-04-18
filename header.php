@@ -12,13 +12,20 @@ session_start();
         <ul class="flex space-x-6">
             <li><a href="index.php" class="hover:text-blue-500">Главная</a></li>
             <li><a href="contacts.php" class="hover:text-blue-500">Контакты</a></li>
-            <li><a href="favorites.php" class="hover:text-blue-500">Избранное</a></li>
-            <li><a href="admin.php" class="hover:text-blue-500">ADMINISTRATOR</a></li>
+            <?
+            if ($_SESSION["admin"] == "1")
+            {
+            ?>
+                <li><a href="admin.php" class="hover:text-blue-500">ADMINISTRATOR</a></li>
+            <?
+            }
+            ?>
             <!-- Корзина должна быть доступна только если человек находится в профиле -->
-            <li><a href="cart.php" class="hover:text-blue-500">Корзина</a></li>
             <?php
             if (isset($_SESSION["name"])) {
             ?>
+                <li><a href="favorites.php" class="hover:text-blue-500">Избранное</a></li>
+                <li><a href="cart.php" class="hover:text-blue-500">Корзина</a></li>
                 <li><a href="user.php" class="hover:text-blue-500"><?= $_SESSION["name"] ?></a></li>
             <?php
             } else {
@@ -37,15 +44,17 @@ session_start();
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
                     <li><a href="index.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Главная</a></li>
                     <li><a href="contacts.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Контакты</a></li>
-                    <li><a href="favorites.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Избранное</a></li>
-                    <li><a href="cart.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Корзина</a></li>
                     <? if (isset($_SESSION["name"])) { ?>
+                        <li><a href="favorites.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Избранное</a></li>
+                        <li><a href="cart.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Корзина</a></li>
                         <li><a href="user.php" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"><?= $_SESSION["name"] ?></a></li>
                     <? } ?>
                 </ul>
+                <? if (!isset($_SESSION["name"])) { ?>
                 <div class="border-t border-gray-200 dark:border-gray-700">
                     <button id="openLogin1" class="block w-full text-left px-4 py-2 text-blue-600 hover:bg-gray-100 dark:hover:bg-gray-700">Войти</button>
                 </div>
+                <?}?>
             </div>
         </div>
         </nav>
