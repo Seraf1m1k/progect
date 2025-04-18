@@ -21,7 +21,7 @@ require_once "header.php";
 
     <!-- Главный баннер -->
     <header class="relative w-full h-96 bg-cover bg-center flex items-center justify-center text-white" 
-        style="background-image: url('https://i.pinimg.com/1200x/98/05/c6/9805c6a10f9b1da39314e0a09e77dd89.jpg');">
+    style="background-image: url('src/img/imgSize.jpg');">
         <div class="text-center bg-black bg-opacity-50 p-6 rounded">
             <h1 class="text-4xl font-bold">Добро пожаловать в наш магазин</h1>
             <p class="text-lg mt-2">Лучшие товары по выгодным ценам</p>
