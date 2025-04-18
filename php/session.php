@@ -8,6 +8,7 @@ function StartSession(array $result)
 
     $_SESSION["name"] = $result["name"];
     $_SESSION["email"] = $result["email"];
+    $_SESSION["email"] = $result["admin"];
 
     if (isset($result["address"]))
         $_SESSION["address"] = $result["address"];
