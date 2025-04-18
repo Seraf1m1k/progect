@@ -10,6 +10,7 @@ require_once "php/admins/admins.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
     <link href="src\style-admin.css" rel="stylesheet">
+    <script src="script.js"></script>
 </head>
 <body>
 
@@ -18,6 +19,7 @@ require_once "php/admins/admins.php";
         <ul>
             <li><a href="#" id="usersTab">Пользователи</a></li>
             <li><a href="#" id="productsTab">Товары</a></li>
+            <li><a href="/" id="homeLink">🏠 Главная</a></li>
         </ul>
     </nav>
 
@@ -74,7 +76,8 @@ require_once "php/admins/admins.php";
                         <td><?=$product["nameProduct"]?></td>
                         <td><?=$product["priceProduct"]?></td>
                         <td>0</td>
-                        <td><button><a href="php/admins/deproduct.php?id='<?=$product['id']?>'">🗑️</a></button></button></td>
+                        <td><button><a href="php/admins/deproduct.php?id='<?=$product['id']?>'">🗑️</a></button></button>
+                        <button onclick="editProduct('<?=$product['id']?>', '<?=$product['nameProduct']?>', '<?=$product['priceProduct']?>')">✏️</button></td>
                     </tr>
                     <?php
                     }
@@ -84,7 +87,7 @@ require_once "php/admins/admins.php";
         </section>
     </main>
 </div>
-
+<!-- Модальное окно редактирования Пользователя -->
 <div id="userModal" class="modal">
     <form action="php/admins/reuser.php">
         <div class="modal-content">
@@ -98,7 +101,17 @@ require_once "php/admins/admins.php";
         </div>
     </form>
 </div>
-
+<!-- Модальное окно редактирования товара -->
+<div id="productModal" class="modal fixed z-10 left-0 top-0 w-full h-full overflow-auto bg-black bg-opacity-50 hidden">
+    <div class="modal-content bg-white p-6 rounded-md shadow-md max-w-md mx-auto mt-24 relative">
+        <span class="close text-xl absolute top-2 right-4 cursor-pointer">&times;</span>
+        <h3 class="text-lg font-semibold mb-4">Редактирование товара</h3>
+        <input type="text" id="editProductId" class="hidden">
+        <input type="text" id="editProductName" placeholder="Наименование" class="w-full p-2 mb-2 border border-gray-300 rounded">
+        <input type="text" id="editProductPrice" placeholder="Цена" class="w-full p-2 mb-2 border border-gray-300 rounded">
+        <button id="saveProduct" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Сохранить</button>
+    </div>
+</div>
 <script>
     let currentUserId = null;
 
@@ -159,12 +172,32 @@ require_once "php/admins/admins.php";
     });
 });
 
+</script>
+<script>
 document.getElementById('productsTab').addEventListener('click', function () {
     document.getElementById('usersSection').style.display = 'none';
     document.getElementById('productsSection').style.display = 'block';
     loadProducts();
 });
-</script>
 
+function editProduct(id, name, price) {
+    document.getElementById("editProductId").value = id;
+    document.getElementById("editProductName").value = name;
+    document.getElementById("editProductPrice").value = price;
+    document.getElementById("productModal").style.display = "block";
+}
+
+document.querySelectorAll(".close").forEach(el => {
+    el.addEventListener("click", function () {
+        el.closest(".modal").style.display = "none";
+    });
+});
+
+document.getElementById("saveProduct").addEventListener("click", function () {
+    // логика обновления товара, например через fetch
+    document.getElementById("productModal").style.display = "none";
+    loadProducts(); // при необходимости
+});
+</script>
 </body>
 </html>

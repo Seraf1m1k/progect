@@ -32,42 +32,67 @@ require_once "header.php";
         </div>
     </footer>
 
+
+<!-- ПРОБНИК  -->
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const favoritesList = document.getElementById("favoritesList");
-            let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    document.addEventListener("DOMContentLoaded", () => {
+        const favoritesList = document.getElementById("favoritesList");
 
-            function renderFavorites() {
-                favoritesList.innerHTML = "";
-                if (favorites.length === 0) {
-                    favoritesList.innerHTML = "<p class='text-center text-xl col-span-3'>Нет товаров в избранном</p>";
-                    return;
-                }
-                favorites.forEach(product => {
-                    const productEl = document.createElement("div");
-                    productEl.classList.add("bg-white", "p-4", "rounded-lg", "shadow-md", "text-center");
-                    productEl.innerHTML = `
-                        <img src="${product.image}" alt="${product.name}" class="w-full rounded">
-                        <h3 class="text-lg font-bold mt-2">${product.name}</h3>
-                        <p class="text-xl font-bold mt-2">${product.price}</p>
-                        <button class="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 removeFav" data-id="${product.id}">Удалить</button>
-                    `;
-                    favoritesList.appendChild(productEl);
-                });
-
-                document.querySelectorAll(".removeFav").forEach(button => {
-                    button.addEventListener("click", (e) => {
-                        const id = e.target.getAttribute("data-id");
-                        favorites = favorites.filter(item => item.id !== id);
-                        localStorage.setItem("favorites", JSON.stringify(favorites));
-                        renderFavorites();
-                    });
-                });
+        // Пример двух товаров для предпросмотра
+        const sampleFavorites = [
+            {
+                id: "1",
+                name: "Смарт-часы Galaxy Watch",
+                price: "₽12 990",
+                image: "https://i.pinimg.com/736x/54/b9/34/54b934d9820b1ab8d1621e4a712382a7.jpg"
+            },
+            {
+                id: "2",
+                name: "Наушники AirPods Pro",
+                price: "₽19 990",
+                image: "https://i.pinimg.com/736x/0b/6b/4e/0b6b4e0e6635933b8f26f514e1be5e39.jpg"
             }
+        ];
 
-            renderFavorites();
-        });
-    </script>
+        // Устанавливаем пример в localStorage только если он пустой
+        let favorites = JSON.parse(localStorage.getItem("favorites"));
+        if (!favorites || favorites.length === 0) {
+            localStorage.setItem("favorites", JSON.stringify(sampleFavorites));
+            favorites = sampleFavorites;
+        }
 
+        function renderFavorites() {
+            favoritesList.innerHTML = "";
+            if (favorites.length === 0) {
+                favoritesList.innerHTML = "<p class='text-center text-xl col-span-3'>Нет товаров в избранном</p>";
+                return;
+            }
+            favorites.forEach(product => {
+                const productEl = document.createElement("div");
+                productEl.classList.add("bg-white", "p-4", "rounded-lg", "shadow-md", "text-center");
+                productEl.innerHTML = `
+    <a href="product.php?id=${product.id}" class="block">
+        <img src="${product.image}" alt="${product.name}" class="w-full rounded">
+        <h3 class="text-lg font-bold mt-2">${product.name}</h3>
+    </a>
+    <p class="text-xl font-bold mt-2">${product.price}</p>
+    <button class="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 removeFav" data-id="${product.id}">Удалить</button>
+`;
+                favoritesList.appendChild(productEl);
+            });
+
+            document.querySelectorAll(".removeFav").forEach(button => {
+                button.addEventListener("click", (e) => {
+                    const id = e.target.getAttribute("data-id");
+                    favorites = favorites.filter(item => item.id !== id);
+                    localStorage.setItem("favorites", JSON.stringify(favorites));
+                    renderFavorites();
+                });
+            });
+        }
+
+        renderFavorites();
+    });
+</script>
 </body>
 </html>

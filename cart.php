@@ -30,7 +30,25 @@ require_once "header.php";
                     </div>
                     <button class="text-red-500">Удалить</button>
                 </div>
-
+                <div class="flex justify-between items-center border-b pb-4">
+                    <div class="flex items-center">
+                        <img src="https://i.pinimg.com/736x/4c/1e/4e/4c1e4e6cde8ffc33cf5c1cca62a32221.jpg" alt="Товар" class="rounded-lg">
+                        <div class="ml-4">
+                            <h3 class="text-lg font-bold">Кроссовки</h3>
+                            <p class="text-gray-600">5 990 ₽</p>
+                        </div>
+                    </div>
+                    <button class="text-red-500">Удалить</button>
+                </div><div class="flex justify-between items-center border-b pb-4">
+                    <div class="flex items-center">
+                        <img src="https://i.pinimg.com/736x/4c/1e/4e/4c1e4e6cde8ffc33cf5c1cca62a32221.jpg" alt="Товар" class="rounded-lg">
+                        <div class="ml-4">
+                            <h3 class="text-lg font-bold">Кроссовки</h3>
+                            <p class="text-gray-600">5 990 ₽</p>
+                        </div>
+                    </div>
+                    <button class="text-red-500">Удалить</button>
+                </div>
 
                 <div class="mt-6 text-right">
 
