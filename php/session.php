@@ -5,16 +5,14 @@ require_once "functions.php";
 function StartSession(array $result)
 {
     session_start();
-
     $_SESSION["name"] = $result["name"];
     $_SESSION["email"] = $result["email"];
     $_SESSION["admin"] = $result["admin"];
-
+    $_SESSION["id"] = $result["id"];
     if (isset($result["address"]))
         $_SESSION["address"] = $result["address"];
     else
         $_SESSION["address"] = "";
-
     if (isset($result["phone_number"]))
         $_SESSION["phone_number"] = $result["phone_number"];
     else

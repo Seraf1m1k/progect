@@ -1,7 +1,7 @@
 <?php 
 require_once "header.php"; 
+require_once "php/shop/product.php";
 ?>
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -15,18 +15,20 @@ require_once "header.php";
 </head>
 <body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
 
-  <main class="flex-grow">
+<main class="flex-grow">
   <section class="py-10">
   <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10">
-    <img id="productImage" src="" alt="Товар" class="w-full rounded-lg">
+    <?
+    ?>
+    <img src="<?=$resultProduct["imageProduct"]?>" alt="Товар" class="w-full rounded-lg">
     <div>
-      <h1 id="productName" class="text-3xl font-bold"></h1>
+      <h1 class="text-3xl font-bold"><?=$resultProduct["nameProduct"]?></h1>
       <div class="flex items-center space-x-2 mt-2">
-        <span id="productRating" class="text-yellow-500"></span>
-        <span id="reviewCount" class="text-gray-600"></span>
+        <span class="text-yellow-500"><?=$countString?></span>
+        <span class="text-gray-600">( Отзывов: <?=$resultCountReviews["total_rating"]?> )</span>
       </div>
       <p id="productStock" class="text-lg font-semibold mt-2"></p>
-      <p id="productPrice" class="text-2xl font-bold mt-4"></p>
+      <p class="text-2xl font-bold mt-4"><?=$resultProduct["priceProduct"]?></p>
 
       <!-- Блок количества и кнопки -->
       <div class="mt-6 flex items-center gap-4">
@@ -58,40 +60,76 @@ require_once "header.php";
     <section class="container mx-auto px-6 mt-10">
       <div class="bg-white p-6 rounded-lg shadow-md mt-6">
         <h2 class="text-2xl font-bold mb-4">Описание</h2>
-        <p id="productDesc" class="text-gray-700"></p>
+        <p class="text-gray-700"><?=$resultProduct["descriptionProduct"]?></p>
       </div>
       <div class="bg-white p-6 rounded-lg shadow-md mt-6">
         <h2 class="text-2xl font-bold mb-4">Характеристики</h2>
-        <p id="productSpecs" class="text-gray-700"></p>
+        <p class="text-gray-700"><?=$resultProduct["descriptionProduct2"]?></p>
       </div>
     </section>
 
     <!-- Отзывы -->
     <section class="container mx-auto px-6 mt-10">
       <div class="bg-white p-6 rounded-lg shadow-md mt-6">
-        <h2 class="text-2xl font-bold mb-4">Отзывы</h2>
-        <div id="reviews" class="space-y-4"></div>
+        <h2 class="text-2xl font-bold mb-4" id="comments">Отзывы</h2>
+        <div class="space-y-4">
+          <?
+          while($result = $resultReviews->fetch_assoc())
+          {
+          ?>
+          <div class="p-4 bg-gray-100 rounded-lg">
+            <p class="font-bold"><?=$result["name"]?></p>
+            <?
+                $countStars = (int)$result["reviewsStars"];
+                $starsStrig = "";
+                for ($i = 5; $i > 0; $i--)
+                {
+                    if ($countStars - 1 > 0)
+                    {
+                        $starsStrig = $starsStrig."⭐";
+                        $countStars--; 
+                    }
+                    else
+                    {
+                        $starsStrig = $starsStrig."☆";
+                    }
+                }
+            ?>
+            <p class="text-yellow-500"><?=$starsStrig?></p>
+            <p><?=$result["reviewsText"]?></p>
+          </div>
+          <?
+          }
+          ?>
+        </div>
       </div>
     </section>
-
+<? if(isset($_SESSION["name"]))
+{
+?>
     <!-- Форма для добавления комментария -->
     <section class="container mx-auto px-6 mt-10">
       <div class="bg-white p-6 rounded-lg shadow-md mt-6">
-        <h2 class="text-2xl font-bold mb-4">Оставить отзыв</h2>
-        <!-- Звездный рейтинг -->
-        <div class="flex items-center space-x-1 mb-4" id="ratingStars">
-          <span class="text-gray-400 cursor-pointer text-2xl" data-value="1">★</span>
-          <span class="text-gray-400 cursor-pointer text-2xl" data-value="2">★</span>
-          <span class="text-gray-400 cursor-pointer text-2xl" data-value="3">★</span>
-          <span class="text-gray-400 cursor-pointer text-2xl" data-value="4">★</span>
-          <span class="text-gray-400 cursor-pointer text-2xl" data-value="5">★</span>
-        </div>
-        <textarea id="commentText" class="w-full p-3 border border-gray-300 rounded-md" rows="4" placeholder="Напишите ваш отзыв..."></textarea>
-        <button id="submitComment" class="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
-          Отправить отзыв
-        </button>
+        <form action="php/shop/addreviews.php">
+          <h2 class="text-2xl font-bold mb-4">Оставить отзыв</h2>
+          <!-- Звездный рейтинг -->
+          <div class="flex items-center space-x-1 mb-4" id="ratingStars">
+            <span class="text-gray-400 cursor-pointer text-2xl" data-value="1">★</span>
+            <span class="text-gray-400 cursor-pointer text-2xl" data-value="2">★</span>
+            <span class="text-gray-400 cursor-pointer text-2xl" data-value="3">★</span>
+            <span class="text-gray-400 cursor-pointer text-2xl" data-value="4">★</span>
+            <span class="text-gray-400 cursor-pointer text-2xl" data-value="5">★</span>
+          </div>
+          <input type="hidden" name="rating" id="rating" value="0">
+          <input type="hidden" name="productid" value="<?=$resultProduct["id"]?>">
+          <textarea name="text" id="commentText" class="w-full p-3 border border-gray-300 rounded-md" rows="4" placeholder="Напишите ваш отзыв..."></textarea>
+          <button type="submit" id="submitComment" class="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">Отправить отзыв</button>
+        </form>
       </div>
     </section>
+<?
+}
+?>
   </main>
 
   <footer class="bg-gray-800 text-white py-6 mt-auto">
@@ -107,56 +145,18 @@ require_once "header.php";
         return new Promise(resolve => {
           setTimeout(() => {
             resolve({
-              name: "RHJCJDJR",
-              image: "https://i.pinimg.com/736x/36/e7/90/36e790b7de94b1490ea0bda2a4aac297.jpg",
-              price: "5 990 ₽",
               stock: true,
-              desc: "Эти кроссовки сочетают комфорт и стиль. Идеальный выбор для активного образа жизни.",
-              specs: "Материал: кожа, Размеры: 38-45, Цвет: черный",
-              reviews: [
-                { name: "Иван", text: "Отличные кроссовки!", rating: 5 },
-                { name: "Анна", text: "Качество на высоте.", rating: 4 },
-                { name: "Петр", text: "Хорошие, но быстро пачкаются.", rating: 3 }
-              ]
             });
           }, 500);
         });
       }
 
+  
       fetchProductData().then(product => {
         // Заполняем данные продукта
-        document.getElementById("productName").textContent = product.name;
-        document.getElementById("productImage").src = product.image;
-        document.getElementById("productPrice").textContent = product.price;
         document.getElementById("productStock").textContent = product.stock ? "В наличии" : "Отсутствует";
         document.getElementById("productStock").classList.toggle("text-green-600", product.stock);
         document.getElementById("productStock").classList.toggle("text-red-600", !product.stock);
-
-        // Описание и характеристики
-        document.getElementById("productDesc").textContent = product.desc;
-        document.getElementById("productSpecs").textContent = product.specs;
-
-        const reviewCount = product.reviews.length;
-        document.getElementById("reviewCount").textContent = `(${reviewCount} ${reviewCount === 1 ? "отзыв" : reviewCount < 5 ? "отзыва" : "отзывов"})`;
-
-        if (reviewCount > 0) {
-          const totalRating = product.reviews.reduce((sum, review) => sum + review.rating, 0);
-          const avgRating = totalRating / reviewCount;
-          document.getElementById("productRating").textContent = "⭐".repeat(Math.round(avgRating)) + "☆".repeat(5 - Math.round(avgRating));
-        } else {
-          document.getElementById("productRating").textContent = "☆☆☆☆☆";
-        }
-
-        const reviewsContainer = document.getElementById("reviews");
-        product.reviews.forEach(review => {
-          const reviewEl = document.createElement("div");
-          reviewEl.classList.add("p-4", "bg-gray-100", "rounded-lg");
-          reviewEl.innerHTML = `
-            <p class="font-bold">${review.name}</p>
-            <p class="text-yellow-500">${"⭐".repeat(review.rating)}${"☆".repeat(5 - review.rating)}</p>
-            <p>${review.text}</p>
-          `;
-          reviewsContainer.appendChild(reviewEl);
         });
       });
 
@@ -184,6 +184,7 @@ require_once "header.php";
         });
         star.addEventListener("click", () => {
           selectedRating = index + 1;
+          document.getElementById("rating").value = selectedRating;
           stars.forEach((s, i) => {
             if (i < selectedRating) {
               s.classList.add("text-yellow-500");
@@ -193,32 +194,6 @@ require_once "header.php";
           });
         });
       });
-
-      // Обработчик отправки комментария
-      const submitComment = document.getElementById("submitComment");
-      submitComment.addEventListener("click", () => {
-        const commentText = document.getElementById("commentText").value.trim();
-        if (selectedRating === 0) {
-          alert("Пожалуйста, выберите рейтинг.");
-          return;
-        }
-        if (commentText.length < 5) {
-          alert("Комментарий слишком короткий.");
-          return;
-        }
-        // Эмуляция отправки данных на сервер
-        console.log('Отправить отзыв:', { rating: selectedRating, comment: commentText });
-        alert('Отзыв отправлен!');
-        // Очистка формы
-        document.getElementById("commentText").value = "";
-        selectedRating = 0;
-        stars.forEach(s => s.classList.remove("text-yellow-500"));
-      });
-    });
-
-
-
-    
   </script>
 
   <!-- кнопки добавления в карзину и - + -->

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3666
--- Время создания: Апр 18 2025 г., 17:17
+-- Время создания: Апр 23 2025 г., 16:47
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -104,7 +104,7 @@ CREATE TABLE `reviews` (
   `reviewsUserID` int NOT NULL,
   `reviewsText` text NOT NULL,
   `reviewsStars` int NOT NULL,
-  `reviewsDate` date NOT NULL
+  `reviewsDate` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
@@ -112,7 +112,16 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `reviewsProductID`, `reviewsUserID`, `reviewsText`, `reviewsStars`, `reviewsDate`) VALUES
-(1, 5, 3, 'Текст комента', 5, '2025-04-08');
+(1, 5, 3, 'Текст комента', 5, '2025-04-08 00:00:00'),
+(2, 5, 3, '222', 5, '2025-04-23 00:00:00'),
+(3, 5, 1, '22', 5, '2025-04-23 00:00:00'),
+(4, 5, 1, '22', 1, '2025-04-23 00:00:00'),
+(5, 5, 1, 'Сосаь', 4, '2025-04-23 00:00:00'),
+(6, 5, 1, '123!', 3, '2025-04-23 16:41:42'),
+(7, 5, 1, '23!', 4, '2025-04-23 16:44:49'),
+(8, 5, 1, '23!', 4, '2025-04-23 16:44:49'),
+(9, 5, 1, '23', 0, '2025-04-23 16:45:28'),
+(10, 5, 1, '235455!', 0, '2025-04-23 16:45:35');
 
 -- --------------------------------------------------------
 
@@ -217,7 +226,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT для таблицы `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
