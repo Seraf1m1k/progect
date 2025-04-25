@@ -1,5 +1,6 @@
 <?php
 require_once "header.php";
+require_once "php/shop/basket.php";
 ?>
 
 <!DOCTYPE html>
@@ -18,44 +19,34 @@ require_once "header.php";
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-6">Корзина</h2>
             <div class="bg-white p-6 rounded-lg shadow-md">
-
-
-                <div class="flex justify-between items-center border-b pb-4">
-                    <div class="flex items-center">
-                        <img src="https://i.pinimg.com/736x/4c/1e/4e/4c1e4e6cde8ffc33cf5c1cca62a32221.jpg" alt="Товар" class="rounded-lg">
-                        <div class="ml-4">
-                            <h3 class="text-lg font-bold">Кроссовки</h3>
-                            <p class="text-gray-600">5 990 ₽</p>
+                <?
+                while($resultBasket = $resultBasketAll->fetch_assoc())
+                {
+                    $sumBasket = $sumBasket + $resultBasket["priceProduct"];
+                ?>
+                <form action="php/shop/removebasket.php">
+                    <input type="hidden" name="basketid" value="<?=$resultBasket["id"]?>"/>
+                    <div class="flex justify-between items-center border-b pb-4">
+                        <div class="flex items-center">
+                            <img src="<?=$resultBasket["imageProduct"]?>" alt="Товар" class="rounded-lg">
+                            <div class="ml-4">
+                                <h3 class="text-lg font-bold"><?=$resultBasket["nameProduct"]?></h3>
+                                <p class="text-gray-600"><?=$resultBasket["priceProduct"]?> ₽</p>
+                            </div>
                         </div>
+                        <button type="submit" class="text-red-500">Удалить</button>
                     </div>
-                    <button class="text-red-500">Удалить</button>
-                </div>
-                <div class="flex justify-between items-center border-b pb-4">
-                    <div class="flex items-center">
-                        <img src="https://i.pinimg.com/736x/4c/1e/4e/4c1e4e6cde8ffc33cf5c1cca62a32221.jpg" alt="Товар" class="rounded-lg">
-                        <div class="ml-4">
-                            <h3 class="text-lg font-bold">Кроссовки</h3>
-                            <p class="text-gray-600">5 990 ₽</p>
-                        </div>
+                </form>
+                <?
+                }
+                ?>
+                <form action="php/admins/addorder.php">
+                    <input type="hidden" name="price" value="<?=$sumBasket?>"/>
+                    <div class="mt-6 text-right">
+                        <p class="text-xl font-bold">Итого: <?=$sumBasket?> ₽</p>
+                        <button type="submit" class="mt-4 bg-blue-500 text-white py-3 px-6 rounded hover:bg-blue-600">Оформить заказ</button>
                     </div>
-                    <button class="text-red-500">Удалить</button>
-                </div><div class="flex justify-between items-center border-b pb-4">
-                    <div class="flex items-center">
-                        <img src="https://i.pinimg.com/736x/4c/1e/4e/4c1e4e6cde8ffc33cf5c1cca62a32221.jpg" alt="Товар" class="rounded-lg">
-                        <div class="ml-4">
-                            <h3 class="text-lg font-bold">Кроссовки</h3>
-                            <p class="text-gray-600">5 990 ₽</p>
-                        </div>
-                    </div>
-                    <button class="text-red-500">Удалить</button>
-                </div>
-
-                <div class="mt-6 text-right">
-
-                    <p class="text-xl font-bold">Итого: 5 990 ₽</p>
-                    <button class="mt-4 bg-blue-500 text-white py-3 px-6 rounded hover:bg-blue-600">Оформить заказ</button>
-                    
-                </div>
+                </form>
             </div>
         </div>
     </section>

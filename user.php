@@ -1,5 +1,6 @@
 <?php
 require_once "php/session.php";
+require_once "php/session/orders.php";
 session_start();
 ?>
 
@@ -45,7 +46,30 @@ session_start();
             <div id="ordersSection" class="hidden">
                 <h2 class="text-2xl font-semibold mb-4">История заказов</h2>
                 <ul id="ordersList" class="space-y-4 max-h-[400px] w-full overflow-y-auto border border-gray-300 p-2 rounded-md">
-                    <!-- Сюда будут загружаться заказы -->
+                    <?
+                    while($resultOrders = $resultOrdersAll->fetch_assoc())
+                    {
+                    ?>
+                    <li class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center border-l-4 <?echo ($resultOrders["status"] == "Доставлен") ? "border-green-500" : "border-yellow-500";?>">
+                        <form>
+                            <div>
+                                <input type="hidden" name="orderid" value="<?=$resultOrders["id"]?>"/>
+                                <p class="text-lg font-semibold">Заказ #<?=$resultOrders["id"]?></p>
+                                <p class="text-gray-500">Дата заказа: <?=$resultOrders["dateStart"]?></p>
+                                <p class="text-gray-500">Дата прибытия: <?=$resultOrders["dateEnd"]?></p>
+                                <p class="text-gray-700 font-bold">Сумма: <?=$resultOrders["price"]?> ₽</p>
+                                <span class="px-3 py-1 rounded-full text-sm font-medium <?echo ($resultOrders["status"] == "Доставлен") ? "bg-green-100 text-green-600" : "bg-yellow-100 text-yellow-600";?>">
+                                    <?=$resultOrders["status"]?>
+                                </span>
+                            </div>
+                            <button type="submit" class="cancel-order-btn bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 <?echo ($resultOrders["status"] == "Доставлен") ? "disabled class='opacity-50 cursor-not-allowed'" : "";?>">
+                                Отменить
+                            </button>
+                        </form>
+                    </li>
+                    <?
+                    }
+                    ?>
                 </ul>
                 <p id="noOrdersMessage" class="text-gray-500 text-center hidden">Заказы не найдены</p>
             </div>
@@ -160,84 +184,6 @@ session_start();
 					passwordFields.classList.add("hidden");
 				}
 			});
-
-
-
-            // ЗАКАЗЫ
-            const ordersList = document.getElementById("ordersList");
-    const noOrdersMessage = document.getElementById("noOrdersMessage");
-
-    // 🔹 Функция генерации даты прибытия (+1–7 дней от даты заказа)
-    function getDeliveryDate(orderDate) {
-        const deliveryOffset = Math.floor(Math.random() * 7) + 1; // От 1 до 7 дней
-        const deliveryDate = new Date(orderDate);
-        deliveryDate.setDate(deliveryDate.getDate() + deliveryOffset);
-        return deliveryDate;
-    }
-
-    // 🔹 Заглушка заказов (замените на API-запрос)
-    const orders = [
-        { id: 1, date: "2024-03-20 14:30", total: "5 990 ₽" },
-        { id: 2, date: "2024-03-18 11:15", total: "12 990 ₽" },
-        { id: 3, date: "2024-03-15 09:00", total: "7 490 ₽" },
-        { id: 4, date: "2024-03-20 14:30", total: "5 990 ₽" },
-        { id: 5, date: "2024-03-18 11:15", total: "12 990 ₽" },
-        { id: 6, date: "2024-03-15 09:00", total: "7 490 ₽" },
-        { id: 7, date: "2024-03-25 14:30", total: "5 990 ₽" },
-        { id: 8, date: "2024-03-18 11:15", total: "12 990 ₽" },
-        { id: 9, date: "2024-03-15 09:00", total: "7 490 ₽" }
-    ].map(order => {
-        const orderDate = new Date(order.date);
-        const deliveryDate = getDeliveryDate(orderDate);
-        const today = new Date();
-        const status = today > deliveryDate ? "Доставлен" : "В обработке";
-
-        return { ...order, deliveryDate, status };
-    });
-
-    // Если заказов нет, показываем заглушку
-    if (orders.length === 0) {
-        noOrdersMessage.classList.remove("hidden");
-        return;
-    }
-
-    // 🔹 Генерация HTML для заказов
-    ordersList.innerHTML = orders.map((order, index) => `
-        <li class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center border-l-4
-            ${order.status === "Доставлен" ? "border-green-500" : "border-yellow-500"}"
-            data-index="${index}">
-            
-            <div>
-                <p class="text-lg font-semibold">Заказ #${order.id}</p>
-                <p class="text-gray-500">Дата заказа: ${order.date}</p>
-                <p class="text-gray-500">Дата прибытия: ${order.deliveryDate.toLocaleDateString()}</p>
-                <p class="text-gray-700 font-bold">Сумма: ${order.total}</p>
-                <span class="px-3 py-1 rounded-full text-sm font-medium
-                    ${order.status === "Доставлен" ? "bg-green-100 text-green-600" : "bg-yellow-100 text-yellow-600"}">
-                    ${order.status}
-                </span>
-            </div>
-
-            <button class="cancel-order-btn bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
-                ${order.status === "Доставлен" ? "disabled class='opacity-50 cursor-not-allowed'" : ""}>
-                Отменить
-            </button>
-        </li>
-    `).join("");
-
-    // 🔹 Обработчик кнопки "Отменить"
-    document.querySelectorAll(".cancel-order-btn").forEach((btn, index) => {
-        btn.addEventListener("click", () => {
-            orders[index].status = "Отменен";
-            btn.parentElement.classList.replace("border-yellow-500", "border-red-500");
-            btn.previousElementSibling.innerHTML = `<span class="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-600">Отменен</span>`;
-            btn.disabled = true;
-            btn.classList.add("opacity-50", "cursor-not-allowed");
-        });
-    });
-
-
-
 
     // АВТОЗАПОЛНЕНИЕ ГОРОДОВ
     const addressInput = document.getElementById("address");
