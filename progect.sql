@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3666
--- Время создания: Апр 23 2025 г., 16:47
+-- Время создания: Апр 25 2025 г., 17:20
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -71,6 +71,28 @@ CREATE TABLE `favourites` (
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int NOT NULL,
+  `dateStart` datetime NOT NULL,
+  `dateEnd` date NOT NULL,
+  `status` varchar(50) NOT NULL,
+  `price` int NOT NULL,
+  `ordersUserID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Дамп данных таблицы `orders`
+--
+
+INSERT INTO `orders` (`id`, `dateStart`, `dateEnd`, `status`, `price`, `ordersUserID`) VALUES
+(1, '2025-04-25 16:49:26', '2025-04-26', 'Доставлен', 1000, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `products`
 --
 
@@ -121,7 +143,11 @@ INSERT INTO `reviews` (`id`, `reviewsProductID`, `reviewsUserID`, `reviewsText`,
 (7, 5, 1, '23!', 4, '2025-04-23 16:44:49'),
 (8, 5, 1, '23!', 4, '2025-04-23 16:44:49'),
 (9, 5, 1, '23', 0, '2025-04-23 16:45:28'),
-(10, 5, 1, '235455!', 0, '2025-04-23 16:45:35');
+(10, 5, 1, '235455!', 0, '2025-04-23 16:45:35'),
+(11, 6, 1, 'ТЕст1', 4, '2025-04-25 16:29:28'),
+(12, 6, 1, '12', 2, '2025-04-25 16:30:37'),
+(13, 6, 1, '12', 4, '2025-04-25 16:31:29'),
+(14, 6, 1, '1212', 5, '2025-04-25 16:32:07');
 
 -- --------------------------------------------------------
 
@@ -174,6 +200,13 @@ ALTER TABLE `favourites`
   ADD KEY `favouritesUserID` (`favouritesUserID`);
 
 --
+-- Индексы таблицы `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ordersUserID` (`ordersUserID`);
+
+--
 -- Индексы таблицы `products`
 --
 ALTER TABLE `products`
@@ -202,7 +235,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `basket`
 --
 ALTER TABLE `basket`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `category`
@@ -217,6 +250,12 @@ ALTER TABLE `favourites`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT для таблицы `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
@@ -226,7 +265,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT для таблицы `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
@@ -251,6 +290,12 @@ ALTER TABLE `basket`
 ALTER TABLE `favourites`
   ADD CONSTRAINT `favourites_ibfk_1` FOREIGN KEY (`favouritesProductID`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `favourites_ibfk_2` FOREIGN KEY (`favouritesUserID`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Ограничения внешнего ключа таблицы `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`ordersUserID`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `products`

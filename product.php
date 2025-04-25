@@ -29,28 +29,31 @@ require_once "php/shop/product.php";
       </div>
       <p id="productStock" class="text-lg font-semibold mt-2"></p>
       <p class="text-2xl font-bold mt-4"><?=$resultProduct["priceProduct"]?></p>
-
+      <form action="php/shop/addbasket.php">
       <!-- Блок количества и кнопки -->
-      <div class="mt-6 flex items-center gap-4">
-        <!-- Контейнер количества -->
-        <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden shadow-sm">
-          <button id="decreaseQty" class="px-3 py-2 text-xl bg-gray-100 hover:bg-gray-200 transition">−</button>
-          <input
-            id="quantity"
-            type="text"
-            value="1"
-            class="w-14 text-center outline-none py-2 text-lg"
-            inputmode="numeric"
-            pattern="[0-9]*"
-          />
-          <button id="increaseQty" class="px-3 py-2 text-xl bg-gray-100 hover:bg-gray-200 transition">+</button>
-        </div>
+        <div class="mt-6 flex items-center gap-4">
+          <!-- Контейнер количества -->
+          <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden shadow-sm">
+            <button id="decreaseQty" class="px-3 py-2 text-xl bg-gray-100 hover:bg-gray-200 transition">−</button>
+            <input
+              id="quantity"
+              name="count"
+              type="text"
+              value="1"
+              class="w-14 text-center outline-none py-2 text-lg"
+              inputmode="numeric"
+              pattern="[0-9]*"
+            />
+            <input type="hidden" name="productid" value="<?=$resultProduct["id"]?>"/>
+            <button id="increaseQty" class="px-3 py-2 text-xl bg-gray-100 hover:bg-gray-200 transition">+</button>
+          </div>
 
-        <!-- Кнопка -->
-        <button id="addToCart" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg transition">
-          Добавить в корзину
-        </button>
-      </div>
+          <!-- Кнопка -->
+          <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg transition">
+            Добавить в корзину
+          </button>
+        </div>
+      </form>  
     </div>
   </div>
 </section>
@@ -71,7 +74,7 @@ require_once "php/shop/product.php";
     <!-- Отзывы -->
     <section class="container mx-auto px-6 mt-10">
       <div class="bg-white p-6 rounded-lg shadow-md mt-6">
-        <h2 class="text-2xl font-bold mb-4" id="comments">Отзывы</h2>
+        <h2 class="text-2xl font-bold mb-4">Отзывы</h2>
         <div class="space-y-4">
           <?
           while($result = $resultReviews->fetch_assoc())
@@ -102,7 +105,8 @@ require_once "php/shop/product.php";
           }
           ?>
         </div>
-      </div>
+        <h1 id="comments"></h1>
+      </di>
     </section>
 <? if(isset($_SESSION["name"]))
 {
