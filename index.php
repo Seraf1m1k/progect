@@ -54,23 +54,26 @@ require_once "php/shop/catalog.php";
 
     <!-- Популярные товары -->
 <section class="py-10 bg-gray-200">
-    <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-6">Популярные товары</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <?
-        while($top = $queryTopProducts->fetch_assoc())
-        {
-        ?>    
-            <div class="bg-white p-4 rounded-lg shadow-md text-center">
-                <img src="<?=$top['imageProduct']?>" alt="" class="w-full rounded">
-                <h3 class="text-lg font-bold mt-2"><?=$top["nameProduct"]?></h3>
-                <p class="text-xl font-bold mt-2"><?=$top["priceProduct"]?></p>
-            </div>
-        <?
-        }
-        ?>
+<div class="container mx-auto px-6">
+  <h2 class="text-3xl font-bold text-center mb-6">Популярные товары</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <?
+    while($top = $queryTopProducts->fetch_assoc())
+    {
+    ?>  
+    <!-- как у тебя реализован переход по ссылкам ? Я ХЗ -->
+      <a href="product.php?id=<?= $top['idProduct'] ?>" class="transform transition hover:scale-105 hover:shadow-xl">
+        <div class="bg-white p-4 rounded-lg shadow-md text-center">
+          <img src="<?= $top['imageProduct'] ?>" alt="" class="w-full rounded">
+          <h3 class="text-lg font-bold mt-2"><?= $top["nameProduct"] ?></h3>
+          <p class="text-xl font-bold mt-2"><?= $top["priceProduct"] ?></p>
         </div>
-    </div>
+      </a>
+    <?
+    }
+    ?>
+  </div>
+</div>
 </section>
 
     <!-- Подвал -->

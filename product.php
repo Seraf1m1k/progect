@@ -49,9 +49,16 @@ require_once "php/shop/product.php";
           </div>
 
           <!-- Кнопка -->
-          <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg transition">
-            Добавить в корзину
-          </button>
+          <div class="p-4 bg-gray-100 rounded-lg w-fit">
+            <div class="flex flex-col gap-4">
+              <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg transition">
+                Добавить в корзину
+              </button>
+              <button type="button" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-6 py-2 rounded-lg transition">
+                Добавить в избранное
+              </button>
+            </div>
+          </div>
         </div>
       </form>  
     </div>
