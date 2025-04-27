@@ -2,9 +2,9 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1:3666
--- Время создания: Апр 25 2025 г., 17:20
--- Версия сервера: 8.0.30
+-- Хост: 127.0.0.1:3306
+-- Время создания: Апр 27 2025 г., 11:31
+-- Версия сервера: 10.8.4-MariaDB
 -- Версия PHP: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `basket` (
-  `id` int NOT NULL,
-  `basketUserID` int NOT NULL,
-  `basketProductID` int NOT NULL,
-  `countProduct` int NOT NULL
+  `id` int(11) NOT NULL,
+  `basketUserID` int(11) NOT NULL,
+  `basketProductID` int(11) NOT NULL,
+  `countProduct` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -41,7 +41,7 @@ CREATE TABLE `basket` (
 --
 
 CREATE TABLE `category` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `img` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
@@ -51,10 +51,10 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `name`, `img`) VALUES
-(1, 'Обувь', 'https://i.pinimg.com/736x/0a/9e/e9/0a9ee98bc57b4e317f9590895e1ae4cf.jpg'),
-(2, 'Одежда', 'https://i.pinimg.com/736x/0a/9e/e9/0a9ee98bc57b4e317f9590895e1ae4cf.jpg'),
+(1, 'Обувь', 'https://i.pinimg.com/1200x/22/f7/cf/22f7cfc3059d8927c3f0ded02af92f40.jpg'),
+(2, 'Одежда', 'https://i.pinimg.com/736x/ff/85/93/ff8593cdef106ce7564bfe0278ba9368.jpg'),
 (3, 'Электроника', 'https://i.pinimg.com/736x/0a/9e/e9/0a9ee98bc57b4e317f9590895e1ae4cf.jpg'),
-(4, 'Игрушки', 'https://i.pinimg.com/736x/0a/9e/e9/0a9ee98bc57b4e317f9590895e1ae4cf.jpg');
+(4, 'Игрушки', 'https://i.pinimg.com/736x/9c/db/46/9cdb46de8ed5c801eeded7f1e1526ada.jpg');
 
 -- --------------------------------------------------------
 
@@ -63,9 +63,9 @@ INSERT INTO `category` (`id`, `name`, `img`) VALUES
 --
 
 CREATE TABLE `favourites` (
-  `id` int NOT NULL,
-  `favouritesUserID` int NOT NULL,
-  `favouritesProductID` int NOT NULL
+  `id` int(11) NOT NULL,
+  `favouritesUserID` int(11) NOT NULL,
+  `favouritesProductID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
@@ -75,12 +75,12 @@ CREATE TABLE `favourites` (
 --
 
 CREATE TABLE `orders` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `dateStart` datetime NOT NULL,
   `dateEnd` date NOT NULL,
   `status` varchar(50) NOT NULL,
-  `price` int NOT NULL,
-  `ordersUserID` int NOT NULL
+  `price` int(11) NOT NULL,
+  `ordersUserID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
@@ -88,7 +88,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `dateStart`, `dateEnd`, `status`, `price`, `ordersUserID`) VALUES
-(1, '2025-04-25 16:49:26', '2025-04-26', 'Доставлен', 1000, 1);
+(1, '2025-04-25 16:49:26', '2025-04-26', 'Доставлен', 1000, 1),
+(2, '2025-04-25 20:03:07', '2025-04-26', 'Доставлен', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -97,12 +98,12 @@ INSERT INTO `orders` (`id`, `dateStart`, `dateEnd`, `status`, `price`, `ordersUs
 --
 
 CREATE TABLE `products` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `nameProduct` varchar(255) NOT NULL,
-  `priceProduct` int NOT NULL,
-  `categoryProductID` int NOT NULL,
-  `descriptionProduct` text,
-  `descriptionProduct2` text,
+  `priceProduct` int(11) NOT NULL,
+  `categoryProductID` int(11) NOT NULL,
+  `descriptionProduct` text DEFAULT NULL,
+  `descriptionProduct2` text DEFAULT NULL,
   `imageProduct` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
@@ -111,8 +112,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `nameProduct`, `priceProduct`, `categoryProductID`, `descriptionProduct`, `descriptionProduct2`, `imageProduct`) VALUES
-(5, 'Название 1', 1000, 3, 'Описание', 'Хар-ки', 'https://i.pinimg.com/736x/88/2a/bb/882abb64ad91a07510188b8686b40058.jpg'),
-(6, 'Название 12222222', 1000, 1, 'Описание', 'Хар-ки', 'https://i.pinimg.com/736x/88/2a/bb/882abb64ad91a07510188b8686b40058.jpg');
+(5, 'Карта Центра', 1000, 3, 'Описание', 'Хар-ки', 'https://i.pinimg.com/736x/88/2a/bb/882abb64ad91a07510188b8686b40058.jpg'),
+(6, 'Название 12222222', 1000, 1, 'Описание', 'Хар-ки', 'https://i.pinimg.com/736x/72/ae/d5/72aed505837f371267d1c2675ce0675f.jpg');
 
 -- --------------------------------------------------------
 
@@ -121,11 +122,11 @@ INSERT INTO `products` (`id`, `nameProduct`, `priceProduct`, `categoryProductID`
 --
 
 CREATE TABLE `reviews` (
-  `id` int NOT NULL,
-  `reviewsProductID` int NOT NULL,
-  `reviewsUserID` int NOT NULL,
+  `id` int(11) NOT NULL,
+  `reviewsProductID` int(11) NOT NULL,
+  `reviewsUserID` int(11) NOT NULL,
   `reviewsText` text NOT NULL,
-  `reviewsStars` int NOT NULL,
+  `reviewsStars` int(11) NOT NULL,
   `reviewsDate` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
@@ -156,10 +157,10 @@ INSERT INTO `reviews` (`id`, `reviewsProductID`, `reviewsUserID`, `reviewsText`,
 --
 
 CREATE TABLE `users` (
-  `id` int NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `phone_number` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `phone_number` varchar(10) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `admin` varchar(1) NOT NULL DEFAULT '0'
@@ -235,43 +236,43 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `basket`
 --
 ALTER TABLE `basket`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `favourites`
 --
 ALTER TABLE `favourites`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -281,34 +282,34 @@ ALTER TABLE `users`
 -- Ограничения внешнего ключа таблицы `basket`
 --
 ALTER TABLE `basket`
-  ADD CONSTRAINT `basket_ibfk_1` FOREIGN KEY (`basketProductID`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `basket_ibfk_2` FOREIGN KEY (`basketUserID`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `basket_ibfk_1` FOREIGN KEY (`basketProductID`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `basket_ibfk_2` FOREIGN KEY (`basketUserID`) REFERENCES `users` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `favourites`
 --
 ALTER TABLE `favourites`
-  ADD CONSTRAINT `favourites_ibfk_1` FOREIGN KEY (`favouritesProductID`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `favourites_ibfk_2` FOREIGN KEY (`favouritesUserID`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `favourites_ibfk_1` FOREIGN KEY (`favouritesProductID`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `favourites_ibfk_2` FOREIGN KEY (`favouritesUserID`) REFERENCES `users` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`ordersUserID`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`ordersUserID`) REFERENCES `users` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `products`
 --
 ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`categoryProductID`) REFERENCES `category` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`categoryProductID`) REFERENCES `category` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `reviews`
 --
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`reviewsUserID`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`reviewsProductID`) REFERENCES `products` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`reviewsUserID`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`reviewsProductID`) REFERENCES `products` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
