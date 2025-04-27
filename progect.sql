@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3666
--- Время создания: Апр 25 2025 г., 17:20
+-- Время создания: Апр 27 2025 г., 12:55
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -33,6 +33,13 @@ CREATE TABLE `basket` (
   `basketProductID` int NOT NULL,
   `countProduct` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Дамп данных таблицы `basket`
+--
+
+INSERT INTO `basket` (`id`, `basketUserID`, `basketProductID`, `countProduct`) VALUES
+(4, 1, 6, 5);
 
 -- --------------------------------------------------------
 
@@ -235,7 +242,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `basket`
 --
 ALTER TABLE `basket`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `category`
@@ -253,7 +260,7 @@ ALTER TABLE `favourites`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT для таблицы `products`
