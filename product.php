@@ -18,8 +18,6 @@ require_once "php/shop/product.php";
 <main class="flex-grow">
   <section class="py-10">
   <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 max-h-[400px] overflow-hidden">
-    <?
-    ?>
     <div class="w-fit rounded-lg">
       <img style="height: 400px;" src="<?=$resultProduct["imageProduct"]?>" alt="Товар">
     </div>
@@ -218,12 +216,14 @@ require_once "php/shop/product.php";
 
   // Увеличение
   increaseBtn.addEventListener('click', () => {
+    event.preventDefault();
     let value = parseInt(qtyInput.value) || 1;
     qtyInput.value = value + 1;
   });
 
   // Уменьшение
   decreaseBtn.addEventListener('click', () => {
+    event.preventDefault();
     let value = parseInt(qtyInput.value) || 1;
     if (value > 1) {
       qtyInput.value = value - 1;
