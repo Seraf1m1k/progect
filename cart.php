@@ -28,7 +28,7 @@ require_once "php/shop/basket.php";
                     <input type="hidden" name="basketid" value="<?=$resultBasket["id"]?>"/>
                     <div class="flex justify-between items-center border-b pb-4">
                         <div class="flex items-center">
-                            <img src="<?=$resultBasket["imageProduct"]?>" alt="Товар" class="rounded-lg">
+                            <img style="height: 400px;" src="<?=$resultBasket["imageProduct"]?>" alt="Товар" class="rounded-lg">
                             <div class="ml-4">
                                 <h3 class="text-lg font-bold"><?=$resultBasket["nameProduct"]?></h3>
                                 <p class="text-gray-600"><?=$resultBasket["priceProduct"]?> ₽</p>
