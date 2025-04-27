@@ -30,7 +30,7 @@ require_once "php/shop/product.php";
         <span class="text-gray-600">( Отзывов: <?=$resultCountReviews["total_rating"]?> )</span>
       </div>
       <p id="productStock" class="text-lg font-semibold mt-2"></p>
-      <p class="text-2xl font-bold mt-4"><?=$resultProduct["priceProduct"]?></p>
+      <p class="text-2xl font-bold mt-4"> Стоимость: <?=$resultProduct["priceProduct"]?> 	&#8381</p>
       <form action="php/shop/addbasket.php">
       <!-- Блок количества и кнопки -->
         <div class="mt-6 flex items-center gap-4">
