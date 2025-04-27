@@ -24,7 +24,13 @@ require_once "php/shop/product.php";
       <img style="height: 400px;" src="<?=$resultProduct["imageProduct"]?>" alt="Товар">
     </div>
     <div>
-      <h1 class="text-3xl font-bold"><?=$resultProduct["nameProduct"]?></h1>
+      <?
+      $query = $conn->prepare("SELECT `id` FROM `favourites` WHERE `favouritesUserID` = ? AND `favouritesProductID` = ?");
+      $query->bind_param("ii", $_SESSION["id"], $resultProduct["id"]);
+      $query->execute();
+      $iffav = $query->get_result()->fetch_row();
+      ?>
+      <h1 class="text-3xl font-bold"><?=$resultProduct["nameProduct"]?> <a href="php/shop/favourite.php?productid=<?=$resultProduct["id"]?>"><?if (isset($iffav[0])) echo "⭐"; else echo "☆";?></a></h1>
       <div class="flex items-center space-x-2 mt-2">
         <span class="text-yellow-500"><?=$countString?></span>
         <span class="text-gray-600">( Отзывов: <?=$resultCountReviews["total_rating"]?> )</span>
@@ -55,9 +61,6 @@ require_once "php/shop/product.php";
             <div class="flex flex-col gap-4">
               <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg transition">
                 Добавить в корзину
-              </button>
-              <button type="button" id="addToFavorites" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-6 py-2 rounded-lg transition">
-                ❤
               </button>
             </div>
           </div>
@@ -173,13 +176,6 @@ require_once "php/shop/product.php";
         });
       });
 
-      // Добавить в избранное
-      const addToFavoritesBtn = document.getElementById('addToFavorites');
-      addToFavoritesBtn.addEventListener('click', () => {
-        alert('❤ Товар добавлен в избранное!');
-        console.log('Товар добавлен в избранное');
-      });
-
       // Реализация звездного рейтинга для оставления отзыва
       const stars = document.querySelectorAll("#ratingStars span");
       let selectedRating = 0;
@@ -243,16 +239,6 @@ require_once "php/shop/product.php";
   qtyInput.addEventListener('input', (e) => {
     qtyInput.value = qtyInput.value.replace(/[^0-9]/g, '');
     if (qtyInput.value === '') qtyInput.value = '1';
-  });
-
-  // Обработка кнопки
-  addToCartBtn.addEventListener('click', () => {
-    const quantity = parseInt(qtyInput.value) || 1;
-    const productName = document.getElementById('productName').textContent;
-    const price = document.getElementById('productPrice').textContent;
-
-    alert(`🛒 Вы добавили ${quantity} x "${productName}" в корзину (Цена: ${price})`);
-    console.log(`Добавлено: ${quantity} x ${productName}`);
   });
 </script>
 
