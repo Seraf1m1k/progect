@@ -62,11 +62,11 @@ require_once "php/shop/catalog.php";
     {
     ?>  
     <!-- как у тебя реализован переход по ссылкам ? Я ХЗ -->
-    <a href="product.php?id=<?= $top['idProduct'] ?>" class="block transform transition hover:scale-105 hover:shadow-xl">
+    <a href="product.php?id=<?=$top["id"]?>" class="block transform transition hover:scale-105 hover:shadow-xl">
   <div  class="bg-white p-4 rounded-lg shadow-md text-center h-full">
-    <img  style="height: 400px;" src="<?= $top['imageProduct'] ?>" alt="" class="w-full h-48 object-contain rounded">
-    <h3 class="text-lg font-bold mt-2"><?= $top["nameProduct"] ?></h3>
-    <p class="text-xl font-bold mt-2">Стоимость: <?= $top["priceProduct"] ?> &#8381</p>
+    <img  style="height: 400px;" src="<?=$top["imageProduct"]?>" alt="" class="w-full h-48 object-contain rounded">
+    <h3 class="text-lg font-bold mt-2"><?=$top["nameProduct"]?></h3>
+    <p class="text-xl font-bold mt-2">Стоимость: <?=$top["priceProduct"]?> &#8381</p>
   </div>
 </a>
 

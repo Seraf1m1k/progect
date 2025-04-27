@@ -21,6 +21,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["productid"]) && isset($_
     }
     $query->close();
 }
+if ($_GET["i"] == "1")
+{
+    header("Location: ../../favorites.php");
+    exit();
+}
 header("Location: ../../product.php?id=".$_GET["productid"]);
 exit();
 ?>

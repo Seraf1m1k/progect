@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3666
--- Время создания: Апр 27 2025 г., 14:31
+-- Время создания: Апр 27 2025 г., 15:02
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -67,13 +67,6 @@ CREATE TABLE `favourites` (
   `favouritesUserID` int NOT NULL,
   `favouritesProductID` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Дамп данных таблицы `favourites`
---
-
-INSERT INTO `favourites` (`id`, `favouritesUserID`, `favouritesProductID`) VALUES
-(2, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -255,7 +248,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT для таблицы `favourites`
 --
 ALTER TABLE `favourites`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `orders`
