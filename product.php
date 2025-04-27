@@ -225,12 +225,14 @@ require_once "php/shop/product.php";
 
   // Увеличение
   increaseBtn.addEventListener('click', () => {
+    event.preventDefault();
     let value = parseInt(qtyInput.value) || 1;
     qtyInput.value = value + 1;
   });
 
   // Уменьшение
   decreaseBtn.addEventListener('click', () => {
+    event.preventDefault();
     let value = parseInt(qtyInput.value) || 1;
     if (value > 1) {
       qtyInput.value = value - 1;
