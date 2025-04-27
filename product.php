@@ -18,8 +18,6 @@ require_once "php/shop/product.php";
 <main class="flex-grow">
   <section class="py-10">
   <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 max-h-[400px] overflow-hidden">
-    <?
-    ?>
     <div class="w-fit rounded-lg">
       <img style="height: 400px;" src="<?=$resultProduct["imageProduct"]?>" alt="Товар">
     </div>
@@ -56,7 +54,7 @@ require_once "php/shop/product.php";
               <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg transition">
                 Добавить в корзину
               </button>
-              <button type="button" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-6 py-2 rounded-lg transition">
+              <button type="submit" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-6 py-2 rounded-lg transition">
                 Добавить в избранное
               </button>
             </div>
@@ -218,12 +216,14 @@ require_once "php/shop/product.php";
 
   // Увеличение
   increaseBtn.addEventListener('click', () => {
+    event.preventDefault();
     let value = parseInt(qtyInput.value) || 1;
     qtyInput.value = value + 1;
   });
 
   // Уменьшение
   decreaseBtn.addEventListener('click', () => {
+    event.preventDefault();
     let value = parseInt(qtyInput.value) || 1;
     if (value > 1) {
       qtyInput.value = value - 1;

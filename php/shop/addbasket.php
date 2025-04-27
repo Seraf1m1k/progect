@@ -7,9 +7,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["name"]))
     $query = $conn->prepare("SELECT `id`, `countProduct` FROM `basket` WHERE `basketUserID` = ? AND `basketProductID` = ?");
     $query->bind_param("ii", $_SESSION["id"], $_POST["productid"]);
     $query->execute();
-    if ($query->get_result()->num_rows < 0)
+    $basket = $query->get_result()->fetch_assoc();
+    if (isset($basket["id"]))
     {
-        $basket = $query->get_result()->fetch_assoc();
         $count = $basket["countProduct"] + $_POST["count"];
         $query = $conn->prepare("UPDATE `basket` SET `countProduct` = ? WHERE `id` = ?");
         $query->bind_param("ii",$count, $basket["id"]);

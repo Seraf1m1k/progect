@@ -62,9 +62,6 @@ session_start();
                                     <?=$resultOrders["status"]?>
                                 </span>
                             </div>
-                            <button type="submit" class="cancel-order-btn bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 <?echo ($resultOrders["status"] == "Доставлен") ? "disabled class='opacity-50 cursor-not-allowed'" : "";?>">
-                                Отменить
-                            </button>
                         </form>
                     </li>
                     <?
