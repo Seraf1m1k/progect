@@ -27,10 +27,10 @@ require_once "php/session/favourites.php";
                 ?>    
                     <div class="bg-white p-4 rounded-lg shadow-md text-center">
                         <a href="product.php?id=<?=$queryFavourites["id"]?>" class="block">
-                            <img src="<?=$queryFavourites["imageProduct"]?>" alt="<?=$queryFavourites["nameProduct"]?>" class="w-full rounded">
+                            <img src="<?=$queryFavourites["imageProduct"]?>" alt="<?=$queryFavourites["nameProduct"]?>" class="w-full h-[200px] md:h-[250px] object-cover object-center rounded">
                             <h3 class="text-lg font-bold mt-2"><?=$queryFavourites["nameProduct"]?></h3>
                         </a>
-                        <p class="text-xl font-bold mt-2"><?=$queryFavourites["priceProduct"]?></p>
+                        <p class="text-xl font-bold mt-2"><?=$queryFavourites["priceProduct"]?> &#8381</p>
                         <button id="removeFav" data-file-url="php/shop/favourite.php?productid=<?=$queryFavourites["id"]?>&i=1" class="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 removeFav">Удалить</button>
                     </div>
                 <?
