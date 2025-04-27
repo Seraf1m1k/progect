@@ -11,7 +11,7 @@ if ($query->get_result()->fetch_row()[0] <= 0)
         exit();
     }
 $dateStart = date("Y-m-d H:i:s");
-$randomDays = rand(2, 7);
+$randomDays = rand(2, 10);
 $dateEnd = date("Y-m-d", strtotime("$dateStart +$randomDays day"));
 $status = "Доставлен";
 $query = $conn->prepare("INSERT INTO `orders` (`dateStart`, `dateEnd`, `status`, `price`, `ordersUserID`) VALUES (?, ?, ?, ?, ?)");
