@@ -17,10 +17,12 @@ require_once "php/shop/product.php";
 
 <main class="flex-grow">
   <section class="py-10">
-  <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+  <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 max-h-[400px] overflow-hidden">
     <?
     ?>
-    <img src="<?=$resultProduct["imageProduct"]?>" alt="Товар" class="w-full rounded-lg">
+    <div class="w-fit rounded-lg">
+      <img style="height: 400px;" src="<?=$resultProduct["imageProduct"]?>" alt="Товар">
+    </div>
     <div>
       <h1 class="text-3xl font-bold"><?=$resultProduct["nameProduct"]?></h1>
       <div class="flex items-center space-x-2 mt-2">

@@ -24,7 +24,7 @@ session_start();
         <a href="index.php" class="text-2xl font-bold">Магазин</a>
         <ul class="flex space-x-6">
             <li><a href="index.php" class="hover:text-blue-500">Главная</a></li>
-            <li><a href="contacts.html" class="hover:text-blue-500">Контакты</a></li>
+            <li><a href="contacts.php" class="hover:text-blue-500">Контакты</a></li>
         </ul>
     </div>
     </header>
